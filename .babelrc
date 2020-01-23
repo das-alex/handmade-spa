@@ -1,0 +1,15 @@
+{
+    "presets": [
+        ["@babel/preset-env", {
+            "modules": false,
+            "spec": true,
+            "forceAllTransforms": true,
+            "useBuiltIns": "entry",
+            "corejs": 3,
+            "targets": "ie 9"
+        }]
+    ],
+    "plugins": [
+        "@babel/plugin-transform-arrow-functions"
+    ]
+}
