@@ -1,6 +1,6 @@
 export default {
     render: async () => {
-        return ``;
+        return `<p>Hello from Login component</p>`;
     },
     after: async () => {
 
