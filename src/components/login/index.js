@@ -9,6 +9,9 @@ export default {
                         <p class="tag_p__header">ВАРБ паспорт</p>
                         <p class="tag_p_about__header">Для использования сервиса необходимо авторизироваться</p>
                     </div>
+                    <!--<div class="passport__error mb-30">
+                        <p>Такого пользователя не существует</p>
+                    </div>-->
                     <div class="passport__body">
                         <form action="">
                             <div class="form_row mb-30">
@@ -40,7 +43,7 @@ export default {
         document.querySelector('.login').addEventListener('click', (event) => {
             event.preventDefault();
             
-
+            console.log('Hello from button');
         });
     }
 };
