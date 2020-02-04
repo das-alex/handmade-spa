@@ -44,6 +44,7 @@ export default {
             event.preventDefault();
             
             console.log('Hello from button');
+            console.log('Store: ', $store.state.user);
         });
     }
 };

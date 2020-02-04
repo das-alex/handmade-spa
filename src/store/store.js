@@ -1,20 +1,43 @@
-function pubsub() {
-    this.events = {};
-}
-
-pubsub.prototype.subscribe = function(event, callback) {
-    if (!this.events.hasOwnProperty(event)) {
-        this.events[event] = [];
+const Pubsub = (function() {
+    function Pubsub() {
+        this.events = {};
     }
-    return this.events[event].push(callback);
-};
 
-pubsub.prototype.publish = function(event, data = {}) {
-    if (!this.events.hasOwnProperty(event)) {
-        return [];
-    }
-    return this.events[event].map(callback => callback(data));
-};
+    Pubsub.prototype.subscribe = function(event, callback) {
+        if (!this.events.hasOwnProperty(event)) {
+            this.events[event] = [];
+        }
+        return this.events[event].push(callback);
+    };
+
+    Pubsub.prototype.publish = function(event, data = {}) {
+        if (!this.events.hasOwnProperty(event)) {
+            return [];
+        }
+        return this.events[event].map(callback => callback(data));
+    };
+
+    return Pubsub;
+
+})();
+
+// function Pubsub() {
+//     this.events = {};
+// }
+
+// Pubsub.prototype.subscribe = function(event, callback) {
+//     if (!this.events.hasOwnProperty(event)) {
+//         this.events[event] = [];
+//     }
+//     return this.events[event].push(callback);
+// };
+
+// Pubsub.prototype.publish = function(event, data = {}) {
+//     if (!this.events.hasOwnProperty(event)) {
+//         return [];
+//     }
+//     return this.events[event].map(callback => callback(data));
+// };
 
 function store(params) {
     this.debug = params.hasOwnProperty('debug') ? params.debug : false;
@@ -40,7 +63,7 @@ function store(params) {
     });
     
     this.status = '...';
-    this.events = new pubsub();
+    this.events = new Pubsub();
 }
 
 store.prototype.dispatch = function(actionKey, payload) {
