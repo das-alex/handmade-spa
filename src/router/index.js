@@ -11,7 +11,11 @@ const router = async () => {
 
     let page = routes[route] ? routes[route].toLoad : routes['/404'].toLoad;
 
-    app.innerHTML = await page.render();
+    if (page.hasOwnProperty('renderTo')) {
+        document.querySelector(`.${page.renderTo}`).innerHTML = await page.render();
+    } else {
+        app.innerHTML = await page.render();
+    }
     await page.after();
 }
 
