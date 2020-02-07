@@ -23,7 +23,7 @@ export default {
                                 <input class="mt-8" id="password" name="password" type="password">
                             </div>
                             <div class="form_row">
-                                <button class="btn login">
+                                <button class="btn">
                                     Войти
                                     ${arrowRight('btn_icon')}
                                 </button>

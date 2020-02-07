@@ -171,6 +171,10 @@ body {
     background-color: #0353e9;
 }
 
+.btn:active {
+    background-color: #002d9c;
+}
+
 .btn_icon {
     position: absolute;
     right: 1rem;
@@ -307,6 +311,18 @@ body {
     padding-top: .8rem;
     padding-bottom: .8rem;
     padding-left: 1rem;
+}
+
+.data_table__tr {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.data_table__tr:last-child {
+    border-bottom: none;
+}
+
+.data_table__tr:hover {
+    background-color: #e5e5e5;
 }
 
 .clearfix {
