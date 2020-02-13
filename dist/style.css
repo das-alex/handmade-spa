@@ -329,6 +329,10 @@ body {
     clear: both;
 }
 
+.float_r {
+    float: right;
+}
+
 .pure {
     margin: 0;
 }

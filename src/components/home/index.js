@@ -16,7 +16,7 @@ export default {
                     <ul class="dash_menu">
                         <li class="dash_menu_item"><a class="pure_a nav_menu_link" href="#/">Главная</a></li>
                         <li class="dash_menu_item"><a class="pure_a nav_menu_link" href="#/categories">Категории</a></li>
-                        <li class="dash_menu_item">Отделения</li>
+                        <li class="dash_menu_item"><a class="pure_a nav_menu_link" href="#/departments">Отделения</a></li>
                         <li class="dash_menu_item">Страницы отделений</li>
                         <li class="dash_menu_item">Документы</li>
                         <li class="dash_menu_item">Учёт и регистрация УМКД</li>

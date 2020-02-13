@@ -62,7 +62,8 @@ export const tableActions = (function() {
             const btn = new button(
                 key,
                 this.funcs[key].icon,
-                this.funcs[key].action
+                this.funcs[key].action,
+                this.funcs[key].style
             ).render();
             tableAction.appendChild(btn);
         });

@@ -1,10 +1,13 @@
+import Store from '../store';
 import routes from './routes';
-import routerUtils from './routerUtils';
+import { parseUrl, isAvaiable } from './routerUtils';
+
+const $store = Store;
 
 const router = async () => {
     const app = null || document.querySelector('#app');
 
-    const req = routerUtils.parseUrl();
+    const req = parseUrl();
     const route = (req.resource ? '/' + req.resource : '/') +
                 (req.id ? '/:id' : '') +
                 (req.verb ? '/' + req.verb : '');

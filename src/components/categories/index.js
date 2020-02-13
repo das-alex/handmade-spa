@@ -1,4 +1,5 @@
 import { datatable, tableActions } from '../../uiElements/datatable';
+import { clearfix } from '../../uiElements/clearfix';
 import { add } from '../../icons';
 
 export default {
@@ -22,7 +23,15 @@ export default {
                 icon: add,
                 action: () => {
                     console.log('Hello from categories');
-                }
+                },
+                style: 'float_r'
+            },
+            'Удалить всё': {
+                icon: '',
+                action: () => {
+                    console.log('Deleted something');
+                },
+                style: 'float_r'
             }
         }).render();
 
@@ -42,6 +51,7 @@ export default {
         const table = new datatable(tableHeader, tableData).render();
 
         document.querySelector('.dash__content_body').appendChild(actions);
+        clearfix('.dash__content_body');
         document.querySelector('.dash__content_body').appendChild(table);
     }
 };

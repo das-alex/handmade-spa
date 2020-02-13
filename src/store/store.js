@@ -21,24 +21,6 @@ const Pubsub = (function() {
 
 })();
 
-// function Pubsub() {
-//     this.events = {};
-// }
-
-// Pubsub.prototype.subscribe = function(event, callback) {
-//     if (!this.events.hasOwnProperty(event)) {
-//         this.events[event] = [];
-//     }
-//     return this.events[event].push(callback);
-// };
-
-// Pubsub.prototype.publish = function(event, data = {}) {
-//     if (!this.events.hasOwnProperty(event)) {
-//         return [];
-//     }
-//     return this.events[event].map(callback => callback(data));
-// };
-
 function store(params) {
     this.debug = params.hasOwnProperty('debug') ? params.debug : false;
 
