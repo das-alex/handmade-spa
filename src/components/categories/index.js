@@ -1,8 +1,31 @@
-import { datatable } from '../../uiElements/datatable';
+import { datatable, tableActions } from '../../uiElements/datatable';
+import { add } from '../../icons';
 
 export default {
     renderTo: 'dash__content',
     render: async () => {
+        return `
+        <div class="dash__content_header">
+            <div class="dash__content_header_top">
+                <p class="pure white_p dash__content_header_p">Категории</p>
+            </div>
+            <div class="dash__content_header_bottom">
+            </div>
+        </div>
+        <div class="dash__content_body">
+        </div>
+        `;
+    },
+    after: async () => {
+        const actions = new tableActions({
+            'Добавить категорию': {
+                icon: add,
+                action: () => {
+                    console.log('Hello from categories');
+                }
+            }
+        }).render();
+
         const tableHeader = [
             'Название',
             'Ссылка',
@@ -16,18 +39,9 @@ export default {
             ['Общественные организации', 'publicOrganizations', '6']
         ];
 
-        return `
-        <div class="dash__content_header">
-            <div class="dash__content_header_top">
-                <p class="pure white_p dash__content_header_p">Категории</p>
-            </div>
-            <div class="dash__content_header_bottom">
-            </div>
-        </div>
-        <div class="dash__content_body">
-            ${datatable(tableHeader, tableData)}
-        </div>
-        `;
-    },
-    after: async () => {}
+        const table = new datatable(tableHeader, tableData).render();
+
+        document.querySelector('.dash__content_body').appendChild(actions);
+        document.querySelector('.dash__content_body').appendChild(table);
+    }
 };
