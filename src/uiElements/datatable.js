@@ -12,6 +12,7 @@ export const datatable = (function() {
             `<th class="data_table__th">${item}</th>`
         ).join('');
     
+        // Need to be improved to use any numbers of columns
         const dataMarkup = this.data.map(item => `
             <tr class="data_table__tr">
                 <td class="data_table__td">${item[0]}</td>

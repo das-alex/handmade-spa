@@ -362,3 +362,36 @@ body {
     width: .9rem;
     height: .9rem;
 }
+
+.dashboard__modal {
+    position: absolute;
+
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+
+    background-color: #2c2c2c7e;
+
+    z-index: 999;
+}
+
+.dash__modal_box {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+
+    top: calc(50% - 100px);
+    left: calc(50% - 100px);
+
+    
+    
+    background-color: #f4f4f4;
+}
+
+.modal_box__header,
+.modal_box__body {
+    padding-top: 1rem;
+    padding-left: 1rem;
+    padding-right: 3rem;
+}

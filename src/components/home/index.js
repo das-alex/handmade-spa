@@ -35,7 +35,13 @@ export default {
         </div>
         <div class="dashboard__modal">
             <div class="dash__modal_box">
-                <!--Modal content placed here-->
+                <div class="modal_box__header">
+                    Модальное окно
+                </div>
+                <div class="modal_box__body">
+                </div>
+                <div class="modal_box__footer">
+                </div>
             </div>
         </div>`
     },
