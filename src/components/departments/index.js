@@ -1,5 +1,4 @@
 export default {
-    renderTo: 'dash__content',
     render: async () => {
         return `
         <div class="dash__content_header">

@@ -2,9 +2,10 @@ import Store from '../store';
 import routes from './routes';
 import { parseUrl, isAvaiable } from './routerUtils';
 
-const $store = Store;
+const router = async (ev) => {
+    
+    // TODO on load do check type of ev
 
-const router = async () => {
     const app = null || document.querySelector('#app');
 
     const req = parseUrl();
@@ -12,14 +13,14 @@ const router = async () => {
                 (req.id ? '/:id' : '') +
                 (req.verb ? '/' + req.verb : '');
 
-    let page = routes[route] ? routes[route].toLoad : routes['/404'].toLoad;
-
-    if (page.hasOwnProperty('renderTo')) {
-        document.querySelector(`.${page.renderTo}`).innerHTML = await page.render();
+    const page = routes[route] ? routes[route] : routes['/404'];
+    if (page.hasOwnProperty('parentTemplate')) {
+        const to = document.querySelector(`${page.parentTemplate}-content`);
+        to.innerHTML = await page.toLoad.render();
     } else {
-        app.innerHTML = await page.render();
+        app.innerHTML = await page.toLoad.render();
     }
-    await page.after();
+    await page.toLoad.after();
 }
 
 export default router;

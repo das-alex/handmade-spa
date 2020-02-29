@@ -15,6 +15,9 @@ export const datatable = (function() {
         // Need to be improved to use any numbers of columns
         const dataMarkup = this.data.map(item => `
             <tr class="data_table__tr">
+                <td class="data_table__td">
+                    <input type="checkbox">
+                </td>
                 <td class="data_table__td">${item[0]}</td>
                 <td class="data_table__td">${item[1]}</td>
                 <td class="data_table__td">${item[2]}</td>

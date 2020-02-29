@@ -1,9 +1,10 @@
-import { datatable, tableActions } from '../../uiElements/datatable';
-import { clearfix } from '../../uiElements/clearfix';
+import { datatable, tableActions } from '../../dynamicComponents/datatable';
+import { clearfix } from '../../dynamicComponents/clearfix';
+import { modal } from '../../dynamicComponents/modal';
+
 import { add } from '../../icons';
 
 export default {
-    renderTo: 'dash__content',
     render: async () => {
         return `
         <div class="dash__content_header">
@@ -18,11 +19,23 @@ export default {
         `;
     },
     after: async () => {
+        const addCategory = `
+            <div class="form_row mb-30">
+                <label for="category_name">Название категории</label>
+                <input class="mt-8" id="category_name" name="category_name" type="text">
+            </div>
+            <div class="form_row mb-50">
+                <label for="category_link">Ссылка категории</label>
+                <input class="mt-8" id="category_link" name="category_link" type="text">
+            </div>
+        `;
+
         const actions = new tableActions({
             'Добавить категорию': {
                 icon: add,
                 action: () => {
-                    console.log('Hello from categories');
+                    const mdl = new modal('Добавить новую категроию', addCategory);
+                    mdl.render();
                 },
                 style: 'float_r'
             },
@@ -36,7 +49,7 @@ export default {
         }).render();
 
         const tableHeader = [
-            'Название',
+            '', 'Название',
             'Ссылка',
             'Количество отделений', ''
         ];

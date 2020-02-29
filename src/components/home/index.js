@@ -27,22 +27,9 @@ export default {
                         <li class="dash_menu_item">Настройки</li>
                     </ul>
                 </div>
-                <div class="dash__content">
-                    
-                </div>
+                <home-content class="dash__content"></home-content>
             </div>
             <div class="clearfix"></div>
-        </div>
-        <div class="dashboard__modal">
-            <div class="dash__modal_box">
-                <div class="modal_box__header">
-                    Модальное окно
-                </div>
-                <div class="modal_box__body">
-                </div>
-                <div class="modal_box__footer">
-                </div>
-            </div>
         </div>`
     },
     after: async () => {}
