@@ -3,9 +3,6 @@ import routes from './routes';
 import { parseUrl, isAvaiable } from './routerUtils';
 
 const router = async (ev) => {
-    
-    // TODO on load do check type of ev
-
     const app = null || document.querySelector('#app');
 
     const req = parseUrl();
@@ -14,7 +11,15 @@ const router = async (ev) => {
                 (req.verb ? '/' + req.verb : '');
 
     const page = routes[route] ? routes[route] : routes['/404'];
+
     if (page.hasOwnProperty('parentTemplate')) {
+        if (ev.type === 'load') {
+            const parentRoute = page.parentRoute;
+            const parentPage = routes[parentRoute].toLoad;
+            app.innerHTML = await parentPage.render();
+            await parentPage.after();
+        }
+
         const to = document.querySelector(`${page.parentTemplate}-content`);
         to.innerHTML = await page.toLoad.render();
     } else {

@@ -1,4 +1,5 @@
 import { arrowRight } from '../../icons';
+import { routeTo } from '../../router/routerUtils';
 
 export default {
     render: async () => {
@@ -23,7 +24,7 @@ export default {
                                 <input class="mt-8" id="password" name="password" type="password">
                             </div>
                             <div class="form_row">
-                                <button class="btn">
+                                <button class="btn login">
                                     Войти
                                     ${arrowRight('btn_icon')}
                                 </button>
@@ -42,9 +43,8 @@ export default {
     after: async () => {
         document.querySelector('.login').addEventListener('click', (event) => {
             event.preventDefault();
-            
-            console.log('Hello from button');
-            console.log('Store: ', $store.state.user);
+
+            routeTo('/');
         });
     }
 };

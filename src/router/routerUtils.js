@@ -9,6 +9,10 @@ export const parseUrl = () => {
     }
 };
 
-export const isAvaiable = (page) => {
+export const isAvaiable = (route) => {
     
+};
+
+export const routeTo = (route) => {
+    window.location.hash = route;
 };

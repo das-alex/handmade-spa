@@ -16,11 +16,16 @@ export default {
     '/' : {toLoad: home,},
     '/categories': {
         toLoad: categories,
-        parentTemplate: 'home' // Name of parent component
+        /* [parentTemplate] - Name of parent component. That name placed in '/'
+        template like <home-content> and further it will
+        be find it by this name to insert content of 'categories' to '/' */
+        parentTemplate: 'home',
+        parentRoute: '/'
     },
     '/departments': {
         toLoad: departments,
-        parentTemplate: 'home'
+        parentTemplate: 'home',
+        parentRoute: '/'
     },
     '/login': {toLoad: login, isProtected: false},
     '/404': {toLoad: error404}
