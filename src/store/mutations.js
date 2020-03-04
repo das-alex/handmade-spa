@@ -4,4 +4,9 @@ export default {
 
         return state;
     },
+    loginUser(state, payload) {
+        state.isAuth = payload;
+
+        return state;
+    }
 };

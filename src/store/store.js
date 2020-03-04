@@ -27,29 +27,31 @@ function store(params) {
     this.actions = params.hasOwnProperty('actions') ? params.actions : {};
     this.mutations = params.hasOwnProperty('mutations') ? params.mutations : {};
     
+    this.status = '...';
+    this.events = new Pubsub();
+
+    let self = this;
+
     this.state = new Proxy((params.state || {}), {
         set: function(state, key, value) {
             state[key] = value;
 
-            console.log('stateChange', key, ': ', value);
-            this.events.publish('stateChange', this.state);
+            console.log('stateChange', key, ': ', value) && self.debug;            
+            self.events.publish('stateChange', self.state);
 
-            if (this.status !== 'mutation') {
+            if (self.status !== 'mutation' && self.debug) {
                 console.warn('Use mutation to set key');
             }
 
-            this.status = '...';
+            self.status = '...';
 
             return true;
         }
     });
-    
-    this.status = '...';
-    this.events = new Pubsub();
 }
 
 store.prototype.dispatch = function(actionKey, payload) {
-    if (typeof this.actions[actionKey] !== 'function') {
+    if (typeof this.actions[actionKey] !== 'function' ) {
         console.error(`Action ${actionKey} doesnt exist`);
         return false;
     }
