@@ -12,15 +12,21 @@ const router = async (ev) => {
 
     const page = routes[route] ? routes[route] : routes['/404'];
 
+    // console.log(isAvaiable(page));
+
     if (page.hasOwnProperty('parentTemplate')) {
-        if (ev.type === 'load') {
+        let to = document.querySelector(`${page.parentTemplate}-content`);
+
+        if (to === null) {
             const parentRoute = page.parentRoute;
             const parentPage = routes[parentRoute].toLoad;
+            
             app.innerHTML = await parentPage.render();
             await parentPage.after();
+
+            to = document.querySelector(`${page.parentTemplate}-content`);
         }
 
-        const to = document.querySelector(`${page.parentTemplate}-content`);
         to.innerHTML = await page.toLoad.render();
     } else {
         app.innerHTML = await page.toLoad.render();
