@@ -407,8 +407,25 @@ body {
     padding-right: 3rem;
 }
 
-/* .modal_box_btn {
+.modal_box__footer {
+    width: 100%;
+}
 
-} */
+.modal_box_btn {
+    height: 4rem;
+    padding: 0 4rem 1.5rem 1rem;
+}
+
+.cancel_btn {
+    background-color: #393939;
+}
+
+.cancel_btn:hover {
+    background-color: #4c4c4c;
+}
+
+.cancel_btn:active {
+    background-color: #6f6f6f;
+}
 
 /* TODO Needed to use other size points for fonts (rem) */

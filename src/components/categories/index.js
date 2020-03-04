@@ -4,8 +4,11 @@ import { modal } from '../../dynamicComponents/modal';
 
 import { add } from '../../icons';
 
+import Store from '../../store/';
+
 export default {
     render: async () => {
+        console.log('Store', Store.state);
         return `
         <div class="dash__content_header">
             <div class="dash__content_header_top">
@@ -34,6 +37,12 @@ export default {
             'Добавить категорию': {
                 icon: add,
                 action: () => {
+                    // const modal = {
+                    //     header: 'Добавить новую категроию',
+                    //     body: '',
+                    //     fields: {},
+                    //     btns: {}
+                    // };
                     const mdl = new modal('Добавить новую категроию', addCategory);
                     mdl.render();
                 },

@@ -1,6 +1,8 @@
 import { arrowRight } from '../../icons';
 import { routeTo } from '../../router/routerUtils';
 
+import Store from '../../store/';
+
 export default {
     render: async () => {
         return `
@@ -44,7 +46,8 @@ export default {
         document.querySelector('.login').addEventListener('click', (event) => {
             event.preventDefault();
 
-            routeTo('/');
+            Store.dispatch('loginUser', true);
+            routeTo('/categories');
         });
     }
 };

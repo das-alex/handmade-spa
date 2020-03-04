@@ -4,12 +4,23 @@ export const modal = (function() {
         this.bodyBlock = body;
     }
 
-    function createBlock(data, style) {
+    function createBlock(data, style, fn = null) {
         const div = document.createElement('div');
         Array.isArray(style)
             ? style.forEach(el => div.classList.add(el))
             : div.classList.add(style);
-        div.innerHTML = data;
+
+        if (typeof data === 'string') {
+            div.innerHTML = data;
+        } else if (Array.isArray(data)) {
+            data.forEach(el => div.appendChild(el));
+        } else {
+            div.appendChild(data);
+        }
+
+        if (typeof fn === 'function') {
+            div.onclick = fn;
+        }
 
         return div;
     }
@@ -23,7 +34,9 @@ export const modal = (function() {
     function createButton(name, fn) {
         const btn = document.createElement('button');
         btn.innerHTML = name;
+        btn.classList.add('btn');
         btn.classList.add('modal_box_btn');
+        btn.classList.add('cancel_btn');
         btn.onclick = fn;
 
         return btn;
@@ -32,24 +45,33 @@ export const modal = (function() {
     modal.prototype.render = function() {
         const app = document.querySelector('#app');
 
-        const modalBackground = document.createElement('div');
-        modalBackground.classList.add('dashboard__modal');
-        modalBackground.onclick = function(ev) {
-            if (ev.target.className === 'dashboard__modal') {
-                app.removeChild(modalBackground);
-            }
-        };
-
-        const modalWindow = document.createElement('div');
-        modalWindow.classList.add('dash__modal_box');
-
         const header = createBlock(this.headerBlock, ['modal_box__header', 'mb-30']);
         const body = createBlock(this.bodyBlock, 'modal_box__body');
-        const footer = createBlock();
 
-        modalWindow.appendChild(header);
-        modalWindow.appendChild(body);
-        modalBackground.appendChild(modalWindow);
+        const cancelBtn = createButton('Отменить', () => {
+            app.removeChild(modalBackground);
+        });
+        const saveBtn = createButton('Сохранить', () => {
+            app.removeChild(modalBackground);
+            console.log('Saved!');
+        });
+        const footer = createBlock([cancelBtn, saveBtn], 'modal_box__footer');
+        
+        const modalWindow = createBlock(
+            [header, body, footer],
+            'dash__modal_box'
+        );
+
+        const modalBackground = createBlock(
+            modalWindow, 'dashboard__modal', (ev) => {
+                if (ev.target.className === 'dashboard__modal') {
+                    app.removeChild(modalBackground);
+                }
+            }
+        );
+        
+        // const footer = createBlock();
+
         app.appendChild(modalBackground);
     }
 
