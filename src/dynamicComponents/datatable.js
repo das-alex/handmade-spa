@@ -1,48 +1,69 @@
+import { makeNodes } from '../__lib/';
+
 import { overflowMenuVertical } from '../icons';
 import button from './button';
 
 export const datatable = (function() {
-    function datatable(header, data) {
+    function datatable(header, data, options) {
         this.header = header;
         this.data = data;
+
+        this.isSelect = options.selectable;
+        this.overflow = options.overflowMenu
     }
 
-    datatable.prototype.render = function() {
-        const headerMarkup = this.header.map(item => 
-            `<th class="data_table__th">${item}</th>`
+    function getHeader(header) {
+        return header.map(item =>
+            `<th class="data_table__th">
+                ${item}
+            </th>`
         ).join('');
-    
-        // Need to be improved to use any numbers of columns
-        const dataMarkup = this.data.map(item => `
+    }
+
+    function getBody(body) {
+        return body.map(row => `
             <tr class="data_table__tr">
                 <td class="data_table__td">
                     <input type="checkbox">
                 </td>
-                <td class="data_table__td">${item[0]}</td>
-                <td class="data_table__td">${item[1]}</td>
-                <td class="data_table__td">${item[2]}</td>
-                <td>${overflowMenuVertical('btn__overflow_menu_v')}</td>
+                ${getCells(row)}
+                <td>${overflowMenuVertical('btn__overflow_menu_v')}</td>    
             </tr>
-        `).join('');
-    
-        const table = `
-            <table class="data_table">
-                <thead class="data_table__header">
-                    <tr>
-                        ${headerMarkup}
-                    </tr>
-                </thead>
-                <tbody>
-                    ${dataMarkup}
-                </tbody>
-            </table>`;
+        `).join('')
+    }
 
-        const tableWrapper = document.createElement('div');
-        tableWrapper.classList.add('table__wrapper');
-        tableWrapper.classList.add('shadow');
-        
-        tableWrapper.innerHTML = table;
-        return tableWrapper;
+    function getCells(items) {
+        return items.map(item => `
+            <td class="data_table__td">${item}</td>
+        `).join('');
+    }
+
+    function select() {
+        const fn = (ev) => {
+            console.log(ev);
+        }
+        return `
+            <td class="data_table__td">
+                <input onclick="${fn}" type="checkbox">
+            </td>
+        `;
+    }
+
+    datatable.prototype.render = function() {
+        return makeNodes(`
+            <div class="table__wrapper shadow">
+                <table class="data_table">
+                    <thead class="data_table__header">
+                        <tr>
+                            ${getHeader(this.header)}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${getBody(this.data)}
+                    </tbody>
+                </table>
+            </div>
+        `);
     }
 
     return datatable;

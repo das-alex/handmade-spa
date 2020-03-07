@@ -1,14 +1,13 @@
 import { datatable, tableActions } from '../../dynamicComponents/datatable';
-import { clearfix } from '../../dynamicComponents/clearfix';
 import { modal } from '../../dynamicComponents/modal';
 
 import { add } from '../../icons';
 
+import { appendTo, clearfix } from '../../__lib/';
 import Store from '../../store/';
 
 export default {
     render: async () => {
-        console.log('Store', Store.state);
         return `
         <div class="dash__content_header">
             <div class="dash__content_header_top">
@@ -70,10 +69,24 @@ export default {
             ['Общественные организации', 'publicOrganizations', '6']
         ];
 
-        const table = new datatable(tableHeader, tableData).render();
+        const ofmDelete = {
+            name: 'Удалить',
+            fn: function(ev) {
+                console.log('Deleted from overflow menu', ev);
+            }
+        };
 
-        document.querySelector('.dash__content_body').appendChild(actions);
-        clearfix('.dash__content_body');
-        document.querySelector('.dash__content_body').appendChild(table);
+        const table = new datatable(
+            tableHeader,
+            tableData,
+            {
+                selectable: true,
+                overflowMenu: [
+                    ofmDelete
+                ]
+            }
+        ).render();
+
+        appendTo('dash__content_body', [actions, clearfix(), table]);
     }
 };

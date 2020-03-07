@@ -31,12 +31,14 @@ export const modal = (function() {
         const input = document.createElement('input');
     }
 
-    function createButton(name, fn) {
+    function createButton(name, fn, style) {
         const btn = document.createElement('button');
         btn.innerHTML = name;
-        btn.classList.add('btn');
-        btn.classList.add('modal_box_btn');
-        btn.classList.add('cancel_btn');
+
+        Array.isArray(style)
+            ? style.forEach(el => btn.classList.add(el))
+            : btn.classList.add(style);
+
         btn.onclick = fn;
 
         return btn;
@@ -50,11 +52,11 @@ export const modal = (function() {
 
         const cancelBtn = createButton('Отменить', () => {
             app.removeChild(modalBackground);
-        });
+        }, ['btn', 'modal_box_btn', 'gray_btn', 'half-width']);
         const saveBtn = createButton('Сохранить', () => {
             app.removeChild(modalBackground);
             console.log('Saved!');
-        });
+        }, ['btn', 'modal_box_btn', 'blue_btn', 'half-width']);
         const footer = createBlock([cancelBtn, saveBtn], 'modal_box__footer');
         
         const modalWindow = createBlock(
