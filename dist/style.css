@@ -210,10 +210,28 @@ body {
     box-sizing: border-box;
 }
 
-.dash__header_left_side {
+.dash__header_left_side,
+.dash__header_right_side {
     height: 100%;
     display: inline-block;
     vertical-align: middle;
+}
+
+.dash__header_right_side {
+    float: right;
+}
+
+.logout_menu_btn {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.logout_menu_btn:hover {
+    color: #da1e28;
+}
+
+.logout_menu_btn:active {
+    color: #ba1b23;
 }
 
 .h_logo {
@@ -416,16 +434,32 @@ body {
     padding: 0 4rem 1.5rem 1rem;
 }
 
-.cancel_btn {
+.gray_btn {
     background-color: #393939;
 }
 
-.cancel_btn:hover {
+.gray_btn:hover {
     background-color: #4c4c4c;
 }
 
-.cancel_btn:active {
+.gray_btn:active {
     background-color: #6f6f6f;
+}
+
+.blue_btn {
+    background-color: #1662f8;
+}
+
+.blue_btn:hover {
+    background-color: #0353e9;
+}
+
+.blue_btn:active {
+    background-color: #002d9c;
+}
+
+.half-width {
+    width: 50%;
 }
 
 /* TODO Needed to use other size points for fonts (rem) */
