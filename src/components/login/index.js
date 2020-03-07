@@ -46,8 +46,13 @@ export default {
         document.querySelector('.login').addEventListener('click', (event) => {
             event.preventDefault();
 
-            Store.dispatch('loginUser', true);
-            routeTo('/categories');
+            // Store.dispatch('loginUser', true);
+
+            Store.dispatch('authorize', {
+                email: "eve.holt@reqres.in",
+                password: "cityslicka"
+            });
+            // routeTo('/categories');
         });
     }
 };

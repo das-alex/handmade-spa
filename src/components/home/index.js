@@ -9,7 +9,12 @@ export default {
                         <span class="bold_p">информационная система</span>
                     </p>
                 </div>
-                <div class="dash__header_right_side"></div>
+                <div class="dash__header_right_side">
+                    <p class="white_p">
+                        <span class="light_p">Привет, username!</span>
+                        <span class="bold_p logout_menu_btn">Выйти</span>
+                    </p>
+                </div>
             </div>
             <div class="dash__main">
                 <div class="dash__left-side">
