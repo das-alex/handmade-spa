@@ -1,5 +1,3 @@
-import Store from '../store/';
-
 export const parseUrl = () => {
     const url = location.hash.slice(1) || '/';
     const parts = url.split('/');
@@ -18,9 +16,8 @@ export const isProtected = (page) => {
     return true;
 };
 
-export const isAuthorized = () => {
+export const isAuthorized = (isAuth) => {
     const token = localStorage.getItem('token');
-    const isAuth = Store.state.isAuth;
     if (token && isAuth) {
         return true;
     }

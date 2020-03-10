@@ -1,5 +1,7 @@
 import { http } from '../httpReq/';
 import { signin } from '../httpReq/queryConstants';
+import { parseJwt } from '../__lib/';
+import { routeTo } from '../router/routerUtils';
 
 export default {
     loading(context, payload) {
@@ -12,10 +14,18 @@ export default {
             const {status, response} = event.target;
             if (status === 200) {
                 localStorage.setItem('token', JSON.parse(response).token);
-                context.commit('authorize', true);
+                context.commit('authorize', {
+                    isAuth: true,
+                    jwt: parseJwt(JSON.parse(response).token)
+                });
+                routeTo('/');
             }
             context.commit('loading', false);
         });
+    },
+    logout(context) {
+        localStorage.clear();
+        context.commit('logout');
     },
     addCategory(context, payload) {
         // Some actions with http here

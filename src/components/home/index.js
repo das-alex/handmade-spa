@@ -1,5 +1,8 @@
+import Store from '../../store/';
+
 export default {
     render: async () => {
+        const username = Store.state.user.name;
         return `
         <div class="dashboard__wrapper">
             <div class="dash__header">
@@ -11,7 +14,7 @@ export default {
                 </div>
                 <div class="dash__header_right_side">
                     <p class="white_p">
-                        <span class="light_p">Привет, username!</span>
+                        <span class="light_p">Привет, ${username || 'Noname'}!</span>
                         <span class="bold_p logout_menu_btn">Выйти</span>
                     </p>
                 </div>

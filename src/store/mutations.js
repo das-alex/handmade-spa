@@ -5,7 +5,14 @@ export default {
         return state;
     },
     authorize(state, payload) {
-        state.isAuth = payload;
+        state.isAuth = payload.isAuth;
+        state.user = payload.jwt;
+
+        return state;
+    },
+    logout(state) {
+        state.isAuth = false;
+        state.user = {};
 
         return state;
     },
