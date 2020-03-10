@@ -39,14 +39,28 @@ export const datatable = (function() {
     }
 
     function select() {
-        const fn = (ev) => {
-            console.log(ev);
-        }
-        return `
+        const select = makeNodes(`
             <td class="data_table__td">
-                <input onclick="${fn}" type="checkbox">
+                <input type="checkbox">
             </td>
-        `;
+        `);
+    }
+
+    function overflowMenu(overflow) {
+        return makeNodes(`
+            <div class="overflow_menu__wrapper">
+                <button class="overflow_button">
+                    ${overflowMenuVertical('btn__overflow_menu_v')}
+                </button>
+                <div class="overflow_menu__popup">
+                    <ul class="overflow_menu__list">
+                        <li class="overflow_menu__item">
+                            <button></button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        `);
     }
 
     datatable.prototype.render = function() {

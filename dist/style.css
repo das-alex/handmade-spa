@@ -383,6 +383,10 @@ body {
     box-shadow: 0 2px 8px rgba(0,0,0,.2);
 }
 
+.overflow_button {
+    
+}
+
 .btn__overflow_menu_v {
     width: .9rem;
     height: .9rem;

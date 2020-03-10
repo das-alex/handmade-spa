@@ -8,7 +8,6 @@ import Store from '../../store/';
 
 export default {
     render: async () => {
-        console.log('IS AUTH', Store.state.isAuth);
         return `
         <div class="dash__content_header">
             <div class="dash__content_header_top">
