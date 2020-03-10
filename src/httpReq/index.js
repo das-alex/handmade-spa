@@ -8,10 +8,10 @@ export const http = (function() {
     http.prototype.post = function(endPoint, payload) {
         this.xhr.open('POST', server + endPoint, true);
 
-        this.xhr.setRequestHeader('Content-Type', 'application/json');
+        this.xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
         this.xhr.withCredentials = true;
 
-        this.xhr.send(payload);
+        this.xhr.send(JSON.stringify(payload));
         return this.xhr;
     }
 
