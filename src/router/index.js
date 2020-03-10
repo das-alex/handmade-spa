@@ -1,6 +1,11 @@
 import Store from '../store';
 import routes from './routes';
-import { parseUrl, isAvaiable } from './routerUtils';
+import {
+    parseUrl,
+    isProtected,
+    isAuthorized,
+    routeTo
+} from './routerUtils';
 
 const router = async (ev) => {
     const app = null || document.querySelector('#app');
@@ -10,9 +15,11 @@ const router = async (ev) => {
                 (req.id ? '/:id' : '') +
                 (req.verb ? '/' + req.verb : '');
 
-    const page = routes[route] ? routes[route] : routes['/404'];
+    let page = routes[route] ? routes[route] : routes['/404'];
 
-    // console.log(isAvaiable(page));
+    if (isProtected(page) && isAuthorized() === false) {
+        routeTo('/login');
+    }
 
     if (page.hasOwnProperty('parentTemplate')) {
         let to = document.querySelector(`${page.parentTemplate}-content`);

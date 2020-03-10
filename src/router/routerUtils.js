@@ -11,19 +11,21 @@ export const parseUrl = () => {
     }
 };
 
-export const isAvaiable = (page) => {
+export const isProtected = (page) => {
     if (page.hasOwnProperty('isProtected') && page.isProtected === false) {
+        return false;
+    }
+    return true;
+};
+
+export const isAuthorized = () => {
+    const token = localStorage.getItem('token');
+    const isAuth = Store.state.isAuth;
+    if (token && isAuth) {
         return true;
     }
     return false;
 };
-
-// export const isAuthorized = (result) => {
-//     const token = localStorage.getItem('token');
-//     if (token) {
-
-//     }
-// };
 
 export const routeTo = (route) => {
     window.location.hash = route;

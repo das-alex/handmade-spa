@@ -1,4 +1,5 @@
-export default server = 'http://localhost';
+// export default server = 'http://localhost';
+export default server = 'http://localhost:8082/AdminApp';
 
 export const transliterateAlphabet = {
     "Ё":"YO","Й":"I","Ц":"TS","У":"U","К":"K","Е":"E","Н":"N",

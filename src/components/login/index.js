@@ -43,15 +43,14 @@ export default {
         `;
     },
     after: async () => {
-        document.querySelector('.login').addEventListener('click', (event) => {
+        document.querySelector('form').addEventListener('submit', (event) => {
             event.preventDefault();
 
-            // Store.dispatch('loginUser', true);
-
-            Store.dispatch('authorize', {
-                email: "eve.holt@reqres.in",
-                password: "cityslicka"
-            });
+            const user = {
+                username: event.target[0].value,
+                password: event.target[1].value
+            }
+            Store.dispatch('authorize', user);
             // routeTo('/categories');
         });
     }

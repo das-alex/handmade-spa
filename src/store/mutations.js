@@ -1,16 +1,13 @@
 export default {
     authorize(state, payload) {
-        state.response = payload;
+        console.log('MUTATION', payload)
+        // state.response = payload;
+        // state.isAuth = true;
 
         return state;
     },
     addCategory(state, payload) {
         state.items.push(payload);
-
-        return state;
-    },
-    loginUser(state, payload) {
-        state.isAuth = payload;
 
         return state;
     }
