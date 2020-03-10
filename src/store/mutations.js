@@ -1,4 +1,9 @@
 export default {
+    loading(state, payload) {
+        state.loading = payload;
+
+        return state;
+    },
     authorize(state, payload) {
         console.log('MUTATION', payload)
         // state.response = payload;

@@ -5,9 +5,12 @@ export const http = (function() {
         this.xhr = new XMLHttpRequest();
     }
 
-    http.prototype.post = function(endPoint, payload) {
+    http.prototype.post = function(endPoint, payload, bearer = false) {
         this.xhr.open('POST', server + endPoint, true);
 
+        if (bearer) {
+            this.xhr.setRequestHeader('Authorization', `Bearer ${localStorage.getItem('token')}`);
+        }
         this.xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
         this.xhr.withCredentials = true;
 
@@ -19,5 +22,5 @@ export const http = (function() {
 
     }
 
-    return http;
+    return new http();
 })();

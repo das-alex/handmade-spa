@@ -1,12 +1,20 @@
 import { http } from '../httpReq/';
+import { signin } from '../httpReq/queryConstants';
 
 export default {
+    loading(context, payload) {
+        context.commit('loading', payload);
+    },
     authorize(context, payload) {
         // save token and get token to further actions
-        const req = new http();
-        const data = req.post('/auth/signin', payload);
-        data.addEventListener('load', (res) => {
-            context.commit('authorize', res);
+        context.commit('loading', true);
+        const data = http.post(signin, payload);
+
+        data.addEventListener('load', (event) => {
+            context.commit('authorize', {
+                status: event.target.status,
+                response: event.target.response
+            });
         });
     },
     addCategory(context, payload) {
