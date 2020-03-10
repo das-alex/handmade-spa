@@ -5,8 +5,9 @@ export default {
         // save token and get token to further actions
         const req = new http();
         const data = req.post('/auth/signin', payload);
-
-        context.commit('authorize', data);
+        data.addEventListener('load', (res) => {
+            context.commit('authorize', res);
+        });
     },
     addCategory(context, payload) {
         // Some actions with http here
