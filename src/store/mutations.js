@@ -5,9 +5,7 @@ export default {
         return state;
     },
     authorize(state, payload) {
-        console.log('MUTATION', payload)
-        // state.response = payload;
-        // state.isAuth = true;
+        state.isAuth = payload;
 
         return state;
     },

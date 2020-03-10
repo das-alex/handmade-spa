@@ -51,7 +51,7 @@ export default {
                 password: event.target[1].value
             }
             Store.dispatch('authorize', user);
-            // routeTo('/categories');
+            routeTo('/categories');
         });
     }
 };
