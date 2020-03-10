@@ -16,6 +16,11 @@ export default {
 
         return state;
     },
+    getCategories(state, payload) {
+        state.categories = payload;
+
+        return state;
+    },
     addCategory(state, payload) {
         state.items.push(payload);
 

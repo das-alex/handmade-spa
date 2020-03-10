@@ -27,6 +27,9 @@ export default {
         localStorage.clear();
         context.commit('logout');
     },
+    getCategories(context, payload) {
+        context.commit('getCategories', payload);
+    },
     addCategory(context, payload) {
         // Some actions with http here
         context.commit('addCategory', payload);
