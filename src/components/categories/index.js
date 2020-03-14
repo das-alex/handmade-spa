@@ -21,6 +21,7 @@ export default {
         `;
     },
     after: async () => {
+        Store.dispatch('getCategories');
         const addCategory = `
             <div class="form_row mb-30">
                 <label for="category_name">Название категории</label>
