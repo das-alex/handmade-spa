@@ -1,8 +1,10 @@
 import Store from '../../store/';
+import { routeTo } from '../../router/routerUtils';
 
 export default {
     render: async () => {
         const username = Store.state.user.name;
+
         return `
         <div class="dashboard__wrapper">
             <div class="dash__header">
@@ -40,5 +42,10 @@ export default {
             <div class="clearfix"></div>
         </div>`
     },
-    after: async () => {}
+    after: async () => {
+        document.querySelector('.logout_menu_btn').addEventListener('click', () => {
+            Store.dispatch('logout');
+            routeTo('/login');
+        });
+    }
 };
