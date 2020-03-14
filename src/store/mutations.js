@@ -17,7 +17,8 @@ export default {
         return state;
     },
     getCategories(state, payload) {
-        state.categories = payload;
+        console.log(payload);
+        // state.categories = payload;
 
         return state;
     },

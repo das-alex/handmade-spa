@@ -1,5 +1,5 @@
 import { http } from '../httpReq/';
-import { signin } from '../httpReq/queryConstants';
+import { signin, getCategories } from '../httpReq/queryConstants';
 import { parseJwt } from '../__lib/';
 import { routeTo } from '../router/routerUtils';
 
@@ -27,8 +27,16 @@ export default {
         localStorage.clear();
         context.commit('logout');
     },
-    getCategories(context, payload) {
-        context.commit('getCategories', payload);
+    getCategories(context) {
+        context.commit('loading', true);
+        const data = http.get(getCategories, true);
+        data.addEventListener('load', (event) => {
+            const {status, response} = event.target;
+            if (status === 200) {
+                context.commit('getCategories', response);
+            }
+            context.commit('loading', false);
+        });
     },
     addCategory(context, payload) {
         // Some actions with http here
