@@ -21,15 +21,16 @@ export const datatable = (function() {
     }
 
     function getBody(body) {
-        return body.map(row => `
+        const tbody = body.map(item => `
             <tr class="data_table__tr">
                 <td class="data_table__td">
                     <input type="checkbox">
                 </td>
-                ${getCells(row)}
-                <td>${overflowMenuVertical('btn__overflow_menu_v')}</td>    
-            </tr>
-        `).join('')
+                ${getCells(item)}
+                <td class="data_table__overflow"></td>
+            </tr>`).join('');
+
+        return tbody;
     }
 
     function getCells(items) {
@@ -38,33 +39,67 @@ export const datatable = (function() {
         `).join('');
     }
 
-    function select() {
-        const select = makeNodes(`
-            <td class="data_table__td">
-                <input type="checkbox">
-            </td>
-        `);
-    }
+    // function select() {
+    //     const select = makeNodes(`
+    //         <td class="data_table__td">
+    //             <input type="checkbox">
+    //         </td>
+    //     `);
+    // }
 
     function overflowMenu(overflow) {
-        return makeNodes(`
+        function menuItemBtn(item) {
+            const menuItem = makeNodes(`
+                <li class="overflow_menu__item">
+                    <button class="overflow_menu_item__btn">
+                        ${item.name}
+                    </button>
+                </li>
+            `);
+
+            menuItem
+                .querySelector('.overflow_menu_item__btn')
+                .addEventListener('click', item.fn);
+            
+            return menuItem;
+        }
+
+        const menu = makeNodes(`
             <div class="overflow_menu__wrapper">
                 <button class="overflow_button">
                     ${overflowMenuVertical('btn__overflow_menu_v')}
                 </button>
                 <div class="overflow_menu__popup">
                     <ul class="overflow_menu__list">
-                        <li class="overflow_menu__item">
-                            <button></button>
-                        </li>
                     </ul>
                 </div>
             </div>
         `);
+
+        const list = menu.querySelector('.overflow_menu__list');
+        overflow.forEach(item => {
+            list.appendChild(menuItemBtn(item));
+        });
+
+        return menu;
     }
 
     datatable.prototype.render = function() {
-        return makeNodes(`
+        document.querySelector('body').addEventListener('click', function(ev) {
+            let popup = document.querySelectorAll('.overflow_menu__popup');
+            popup.forEach(item => {
+                let btn = item.parentNode.children[0];
+                let svg = item.parentNode.children[0].children[0];
+                let same = ev.target === btn || ev.target === svg;
+                if (!same) {
+                    item.style.display = 'none';
+                } else {
+                    item.style.display = 'block';
+                }
+            });
+        });
+
+        const table = makeNodes(`
             <div class="table__wrapper shadow">
                 <table class="data_table">
                     <thead class="data_table__header">
@@ -78,6 +113,13 @@ export const datatable = (function() {
                 </table>
             </div>
         `);
+
+        const overflows = table.querySelectorAll('.data_table__overflow');
+        overflows.forEach(item => {
+            item.appendChild(overflowMenu(this.overflow));
+        });
+        
+        return table;
     }
 
     return datatable;

@@ -383,8 +383,70 @@ body {
     box-shadow: 0 2px 8px rgba(0,0,0,.2);
 }
 
+.overflow_menu__wrapper {
+    position: relative;
+    float: right;
+}
+
 .overflow_button {
-    
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+
+    border: none;
+    background-color: #0000;
+
+    width: 2rem;
+    height: 2rem;
+    padding-left: 0;
+    padding-right: 0;
+    box-sizing: border-box;
+}
+
+.overflow_button:hover {
+    background-color: #f4f4f4;
+}
+
+.overflow_button:active {
+    background-color: #f4f4f4;
+    box-shadow: 0 2px 6px 0 rgba(0,0,0,.3);
+}
+
+.overflow_menu__popup {
+    position: absolute;
+    top: 2rem;
+    right: 0;
+    display: none;
+
+    background-color: #f4f4f4;
+    box-shadow: 0 2px 6px 0 rgba(0,0,0,.3);
+
+    z-index: 9999;
+}
+
+.overflow_menu__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.overflow_menu__item {
+
+}
+
+.overflow_menu_item__btn {
+    background-color: #0000;
+    border: none;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    padding-left: 1rem;
+    padding-right: 3rem;
+
+    cursor: pointer;
+}
+
+.overflow_menu_item__btn:hover {
+    background-color: #e5e5e5;
 }
 
 .btn__overflow_menu_v {
