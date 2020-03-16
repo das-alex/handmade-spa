@@ -23,6 +23,7 @@ export const http = (function() {
 
         if (bearer) {
             this.xhr.setRequestHeader('Authorization', `Bearer ${localStorage.getItem('token')}`);
+            this.xhr.setRequestHeader('Access-Control-Allow-Origin', server);
         }
         this.xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
         this.xhr.withCredentials = true;
