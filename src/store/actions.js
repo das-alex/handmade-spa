@@ -13,6 +13,7 @@ export default {
         data.addEventListener('load', (event) => {
             const {status, response} = event.target;
             if (status === 200) {
+                console.log('TOKEN', JSON.parse(response).token);
                 localStorage.setItem('token', JSON.parse(response).token);
                 context.commit('authorize', {
                     isAuth: true,

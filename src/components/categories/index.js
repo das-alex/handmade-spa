@@ -77,13 +77,21 @@ export default {
             }
         };
 
+        const ofmChange = {
+            name: 'Изменить',
+            fn: function(ev) {
+                console.log('changed!');
+            }
+        };
+
         const table = new datatable(
             tableHeader,
             tableData,
             {
                 selectable: true,
                 overflowMenu: [
-                    ofmDelete
+                    ofmDelete,
+                    ofmChange
                 ]
             }
         ).render();
