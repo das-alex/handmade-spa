@@ -5,31 +5,42 @@ export const http = (function() {
         this.xhr = new XMLHttpRequest();
     }
 
+    function setHeaders(bearer) {
+        if (bearer) {
+            this.xhr.setRequestHeader("Authorization", `Bearer ${localStorage.getItem('token')}`);
+        }
+        this.xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        this.xhr.withCredentials = true;
+    }
+
+    function handleResponse(xhr) {
+        return new Promise(function(res) {
+            xhr.addEventListener('load', function(event) {
+                const {status, response} = event.target;
+                res({
+                    status,
+                    response
+                });
+            });
+        });
+    }
+
     http.prototype.post = function(endPoint, payload, bearer = false) {
         this.xhr.open('POST', server + endPoint, true);
 
-        if (bearer) {
-            this.xhr.setRequestHeader('Authorization', `Bearer ${localStorage.getItem('token')}`);
-        }
-        this.xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-        this.xhr.withCredentials = true;
+        setHeaders.call(this, bearer);
 
         this.xhr.send(JSON.stringify(payload));
-        return this.xhr;
+        return handleResponse(this.xhr);
     }
 
     http.prototype.get = function(endPoint, bearer = false) {
         this.xhr.open('GET', server + endPoint, true);
 
-        if (bearer) {
-            this.xhr.setRequestHeader('Authorization', `Bearer ${localStorage.getItem('token')}`);
-            this.xhr.setRequestHeader('Access-Control-Allow-Origin', server);
-        }
-        this.xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-        this.xhr.withCredentials = true;
+        setHeaders.call(this, bearer);
 
         this.xhr.send();
-        return this.xhr;
+        return handleResponse(this.xhr);
     }
 
     return new http();
