@@ -23,9 +23,7 @@ export const datatable = (function() {
     function getBody(body) {
         const tbody = body.map(item => `
             <tr class="data_table__tr">
-                <td class="data_table__td">
-                    <input type="checkbox">
-                </td>
+                <td class="data_table__td data_table__select"></td>
                 ${getCells(item)}
                 <td class="data_table__overflow"></td>
             </tr>`).join('');
@@ -39,13 +37,19 @@ export const datatable = (function() {
         `).join('');
     }
 
-    // function select() {
-    //     const select = makeNodes(`
-    //         <td class="data_table__td">
-    //             <input type="checkbox">
-    //         </td>
-    //     `);
-    // }
+    function select() {
+        const select = makeNodes(`
+                <label>
+                    <input class="datatable_checkbox" type="checkbox">
+                </label>`);
+        select
+            .querySelector('.datatable_checkbox')
+            .addEventListener('click', function(ev) {
+                console.log('CHECKED', this, ev);
+            });
+
+        return select;
+    }
 
     function overflowMenu(overflow) {
         function menuItemBtn(item) {
@@ -118,6 +122,13 @@ export const datatable = (function() {
         overflows.forEach(item => {
             item.appendChild(overflowMenu(this.overflow));
         });
+
+        if (this.isSelect) {
+            const selects = table.querySelectorAll('.data_table__select');
+            selects.forEach(item => {
+                item.appendChild(select());
+            });
+        }
         
         return table;
     }
