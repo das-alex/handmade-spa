@@ -1,7 +1,8 @@
 export const modal = (function() {
-    function modal(header, body) {
+    function modal(header, body, buttons) {
         this.headerBlock = header;
         this.bodyBlock = body;
+        this.buttons = buttons;
     }
 
     function createBlock(data, style, fn = null) {

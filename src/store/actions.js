@@ -1,6 +1,7 @@
 import { http } from '../httpReq/';
 import { signin, getCategories } from '../httpReq/queryConstants';
 import { parseJwt } from '../__lib/';
+
 import { routeTo } from '../router/routerUtils';
 
 export default {
@@ -9,19 +10,16 @@ export default {
     },
     authorize(context, payload) {
         context.commit('loading', true);
-        const data = http.post(signin, payload);
-        data.addEventListener('load', (event) => {
-            const {status, response} = event.target;
-            if (status === 200) {
-                console.log('TOKEN', JSON.parse(response).token);
-                localStorage.setItem('token', JSON.parse(response).token);
+        http.post(signin, payload).then(data => {
+            if (data.status === 200) {
+                localStorage.setItem('token', JSON.parse(data.response).token);
                 context.commit('authorize', {
                     isAuth: true,
-                    jwt: parseJwt(JSON.parse(response).token)
+                    jwt: parseJwt(JSON.parse(data.response).token)
                 });
+                context.commit('loading', false);
                 routeTo('/');
             }
-            context.commit('loading', false);
         });
     },
     logout(context) {
@@ -30,17 +28,14 @@ export default {
     },
     getCategories(context) {
         context.commit('loading', true);
-        const data = http.get(getCategories, true);
-        data.addEventListener('load', (event) => {
-            const {status, response} = event.target;
-            if (status === 200) {
-                context.commit('getCategories', response);
+        http.get(getCategories, true).then(data => {
+            if (data.status === 200) {
+                context.commit('getCategories', JSON.parse(data.response));
             }
             context.commit('loading', false);
         });
     },
     addCategory(context, payload) {
-        // Some actions with http here
         context.commit('addCategory', payload);
     }
 };

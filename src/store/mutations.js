@@ -2,29 +2,34 @@ export default {
     loading(state, payload) {
         state.loading = payload;
 
-        return state;
+        // return state;
     },
+    /*----------------------*/
+    /*      АВТОРИЗАЦИЯ     */
+    /*----------------------*/
     authorize(state, payload) {
         state.isAuth = payload.isAuth;
         state.user = payload.jwt;
 
-        return state;
+        // return state;
     },
     logout(state) {
         state.isAuth = false;
         state.user = {};
 
-        return state;
+        // return state;
     },
+    /*----------------------*/
+    /*      КАТЕГОРИИ       */
+    /*----------------------*/
     getCategories(state, payload) {
-        console.log(payload);
-        // state.categories = payload;
+        state.categories = payload;
 
-        return state;
+        // return state;
     },
     addCategory(state, payload) {
         state.items.push(payload);
 
-        return state;
+        // return state;
     }
 };
