@@ -30,14 +30,13 @@ function store(params) {
     this.status = '...';
     this.events = new Pubsub();
 
-    let self = this;
-
+    const self = this;
     this.state = new Proxy((params.state || {}), {
         set: function(state, key, value) {
             state[key] = value;
 
-            console.log('stateChange', key, ': ', value) && self.debug;            
-            self.events.publish('stateChange', self.state);
+            self.debug && console.log('stateChange', key, ': ', value);
+            self.events.publish(`${key}`, self.state);
 
             if (self.status !== 'mutation' && self.debug) {
                 console.warn('Use mutation to set key');
@@ -52,23 +51,23 @@ function store(params) {
 
 store.prototype.dispatch = function(actionKey, payload) {
     if (typeof this.actions[actionKey] !== 'function' ) {
-        console.error(`Action ${actionKey} doesnt exist`);
+        this.debug && console.error(`Action ${actionKey} doesnt exist`);
         return false;
     }
 
-    console.groupCollapsed(`ACTION: ${actionKey}`);
+    this.debug && console.groupCollapsed(`ACTION: ${actionKey}`);
 
     this.status = 'action';
     this.actions[actionKey](this, payload);
 
-    console.groupEnd();
+    this.debug && console.groupEnd();
 
     return true;
 }
 
 store.prototype.commit = function(mutationKey, payload) {
     if (typeof this.mutations[mutationKey] !== 'function') {
-        console.log(`Mutation ${mutationKey} doesnt exist`);
+        this.debug && console.log(`Mutation ${mutationKey} doesnt exist`);
         return false;
     }
 
