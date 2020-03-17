@@ -45,13 +45,10 @@ export default {
     after: async () => {
         document.querySelector('form').addEventListener('submit', (event) => {
             event.preventDefault();
-
-            const user = {
+            Store.dispatch('authorize', {
                 username: event.target[0].value,
                 password: event.target[1].value
-            }
-            Store.dispatch('authorize', user);
-            routeTo('/categories');
+            });
         });
     }
 };
