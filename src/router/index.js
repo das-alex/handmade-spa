@@ -21,6 +21,10 @@ const router = async (ev) => {
         routeTo('/login');
     }
 
+    if (page.toLoad.hasOwnProperty('fetchData')) {
+        await page.toLoad.fetchData();
+    }
+
     if (page.hasOwnProperty('parentTemplate')) {
         let to = document.querySelector(`${page.parentTemplate}-content`);
 
