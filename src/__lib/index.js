@@ -6,7 +6,13 @@ export const makeNodes = (html) => {
 
 export const appendTo = (appendTo, components) => {
     const node = document.querySelector(`.${appendTo}`);
-    components.forEach(component => node.appendChild(component));
+    if (node.children.length === 0) {
+        components.forEach(component => node.appendChild(component));
+    } else {
+        components.forEach((item, i) => {
+            node.replaceChild(item, node.children[i]);
+        });
+    }
 }
 
 export const clearfix = () => {
