@@ -7,6 +7,9 @@ import { appendTo, clearfix } from '../../__lib/';
 import Store from '../../store/';
 
 export default {
+    fetchData: async () => {
+        Store.dispatch('getCategories');
+    },
     render: async () => {
         return `
         <div class="dash__content_header">
@@ -21,81 +24,89 @@ export default {
         `;
     },
     after: async () => {
-        Store.dispatch('getCategories');
-        const addCategory = `
-            <div class="form_row mb-30">
-                <label for="category_name">Название категории</label>
-                <input class="mt-8" id="category_name" name="category_name" type="text">
-            </div>
-            <div class="form_row mb-50">
-                <label for="category_link">Ссылка категории</label>
-                <input class="mt-8" id="category_link" name="category_link" type="text">
-            </div>
-        `;
+        Store.events.subscribe('categories', () => {
+            if (Store.state.categories.length >= 1) {
+                makeTable();
+                // console.log(1);
+            }
+        });
 
-        const actions = new tableActions({
-            'Добавить категорию': {
-                icon: add,
-                action: () => {
-                    // const modal = {
-                    //     header: 'Добавить новую категроию',
-                    //     body: '',
-                    //     fields: {},
-                    //     btns: {}
-                    // };
-                    const mdl = new modal('Добавить новую категроию', addCategory);
+        function makeTable() {
+            const tableHeader = [
+                '', 'Название',
+                'Ссылка',
+                'Количество отделений', ''
+            ];
+
+            const addCategory = `
+                <div class="form_row mb-30">
+                    <label for="category_name">Название категории</label>
+                    <input class="mt-8" id="category_name" name="category_name" type="text">
+                </div>
+                <div class="form_row mb-50">
+                    <label for="category_link">Ссылка категории</label>
+                    <input class="mt-8" id="category_link" name="category_link" type="text">
+                </div>
+            `;
+
+            const actions = new tableActions({
+                'Добавить категорию': {
+                    icon: add,
+                    action: () => {
+                        // const modal = {
+                        //     header: 'Добавить новую категроию',
+                        //     body: '',
+                        //     fields: {},
+                        //     btns: {}
+                        // };
+                        const mdl = new modal('Добавить новую категроию', addCategory);
+                        mdl.render();
+                    },
+                    style: 'float_r'
+                },
+                'Удалить всё': {
+                    icon: '',
+                    action: () => {
+                        console.log('Deleted something');
+                    },
+                    style: 'float_r'
+                }
+            }).render();
+
+            const ofmDelete = {
+                name: 'Удалить',
+                fn: function(ev) {
+                    const mdl = new modal('Удалить категорию?', 'Данное действие навсегда удалит эту категорию');
                     mdl.render();
-                },
-                style: 'float_r'
-            },
-            'Удалить всё': {
-                icon: '',
-                action: () => {
-                    console.log('Deleted something');
-                },
-                style: 'float_r'
-            }
-        }).render();
+                    console.log('Deleted from overflow menu', ev);
+                }
+            };
 
-        const tableHeader = [
-            '', 'Название',
-            'Ссылка',
-            'Количество отделений', ''
-        ];
+            const ofmChange = {
+                name: 'Изменить',
+                fn: function(ev) {
+                    console.log('changed!');
+                }
+            };
 
-        const tableData = [
-            ['Факультеты', 'faculties', '11'],
-            ['Отделы и службы', 'departmentsAndServices', '19'],
-            ['Кафедры', 'kafedri', '40'],
-            ['Общественные организации', 'publicOrganizations', '6']
-        ];
+            const categories = Store.state.categories.map(item => {
+                return [item.title, item.link, item.departments.length];
+            });
 
-        const ofmDelete = {
-            name: 'Удалить',
-            fn: function(ev) {
-                console.log('Deleted from overflow menu', ev);
-            }
-        };
+            const table = new datatable(
+                tableHeader,
+                categories,
+                {
+                    selectable: true,
+                    overflowMenu: [
+                        ofmDelete,
+                        ofmChange
+                    ]
+                }
+            ).render();
 
-        const ofmChange = {
-            name: 'Изменить',
-            fn: function(ev) {
-                console.log('changed!');
-            }
-        };
+            appendTo('dash__content_body', [actions, clearfix(), table]);
+        }
 
-        const table = new datatable(
-            tableHeader,
-            tableData,
-            {
-                selectable: true,
-                overflowMenu: [
-                    ofmDelete,
-                    ofmChange
-                ]
-            }
-        ).render();
-
-        appendTo('dash__content_body', [actions, clearfix(), table]);
     }
 };
