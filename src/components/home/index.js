@@ -4,7 +4,10 @@ import { routeTo } from '../../router/routerUtils';
 import {
     categories,
     departments,
-    home
+    home,
+    logout,
+    menu,
+    page
 } from '../../icons/';
 
 export default {
@@ -16,6 +19,7 @@ export default {
             <div class="dash__header">
                 <div class="dash__header_left_side">
                     <p class="white_p h_logo">
+                        <span class="d-inline-b">${menu('header_menu_icon')}</span>
                         <span class="light_p">ВАРБ</span> 
                         <span class="bold_p">информационная система</span>
                     </p>
@@ -23,7 +27,7 @@ export default {
                 <div class="dash__header_right_side">
                     <p class="white_p">
                         <span class="light_p">${username || 'Noname'}</span>
-                        <span class="bold_p logout_menu_btn">Выйти</span>
+                        <span class="bold_p logout_menu_btn pr-25">Выйти ${logout('logout_icon')}</span>
                     </p>
                 </div>
             </div>
@@ -33,9 +37,9 @@ export default {
                         <li class="dash_menu_item"><a class="pure_a nav_menu_link" href="#/">${home('menu_icon')} Главная</a></li>
                         <li class="dash_menu__delimeter">Структура сайта</li>
                         <li class="dash_menu_item"><a class="pure_a nav_menu_link" href="#/categories">${categories('menu_icon')} Категории</a></li>
-                        <li class="dash_menu_item"><a class="pure_a nav_menu_link" href="#/departments">${departments('menu_icon')} Отделения</a></li>
+                        <li class="dash_menu_item"><a class="pure_a nav_menu_link" href="#/departments">${departments('menu_icon')} Подразделения</a></li>
                         <li class="dash_menu__delimeter">Наполнение сайта</li>
-                        <li class="dash_menu_item">Страницы отделений</li>
+                        <li class="dash_menu_item"><a class="pure_a nav_menu_link" href="#/departmentsPage">${page('menu_icon')} Страницы подразделений</a></li>
                         <li class="dash_menu_item">Документы</li>
                         <li class="dash_menu_item">Учёт и регистрация УМКД</li>
                         <li class="dash_menu_item">План-календарь</li>
@@ -56,5 +60,15 @@ export default {
             Store.dispatch('logout');
             routeTo('/login');
         });
+
+        function activeLink() {
+            document.querySelectorAll('.nav_menu_link').forEach(link => {
+                link.hash === location.hash
+                    ? link.parentNode.classList.add('nav_menu_link__active')
+                    : (link.parentNode.classList.remove('nav_menu_link__active'));
+            });
+        }
+
+        window.addEventListener('hashchange', activeLink);
     }
 };

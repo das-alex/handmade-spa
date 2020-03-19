@@ -126,6 +126,10 @@ body {
     margin-top: 8px;
 }
 
+.pr-25 {
+    padding-right: 25px;
+}
+
 .form_row input {
     height: 2.5rem;
     width: 100%;
@@ -190,6 +194,17 @@ body {
     fill: white;
 }
 
+.logout_icon {
+    position: absolute;
+    width: 1rem;
+    height: 1rem;
+
+    right: 15px;
+    top: calc(50% - .48rem);
+
+    fill: white;
+}
+
 .passport__error {
     background-color: indianred;
     color: white;
@@ -236,8 +251,14 @@ body {
     color: #da1e28;
 }
 
-.logout_menu_btn:active {
-    color: #ba1b23;
+.logout_menu_btn:hover > .logout_icon {
+    fill: #da1e28;
+}
+
+.header_menu_icon {
+    height: 1.4rem;
+
+    fill: white;
 }
 
 .h_logo {
@@ -245,6 +266,11 @@ body {
     line-height: 1.375rem;
     margin-top: 12px;
     margin-bottom: 0;
+}
+
+.d-inline-b {
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .dash__main {
@@ -281,6 +307,12 @@ body {
     vertical-align: middle;
     padding-left: 1.5rem;
     width: calc(100% - 1.5rem);
+}
+
+.nav_menu_link__active {
+    border-left: 5px solid #1662f8;
+    background-color: #e0e0e0;
+    padding-left: .68rem;
 }
 
 .dash_menu_item:hover {
@@ -364,12 +396,20 @@ body {
     background-color: #e5e5e5;
 }
 
+.data_table__select {
+    padding-right: .5rem;
+}
+
 .clearfix {
     clear: both;
 }
 
 .float_r {
     float: right;
+}
+
+.float_l {
+    float: left;
 }
 
 .pure {
@@ -554,6 +594,132 @@ body {
     left: 0;
 
     fill: #1662f8;
+}
+
+.select_container {
+    display: block;
+    position: absolute;
+    cursor: pointer;
+    font-size: 1rem;
+    user-select: none;
+}
+
+.checkbox {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    width: 0;
+    height: 0;
+}
+
+.checkmark {
+    position: absolute;
+    left: 0;
+    top: -9px;
+    
+    width: .9rem;
+    height: .9rem;
+
+    border: 1px solid black;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.select_container .checkmark:after {
+    left: 4px;
+    top: 0;
+    width: 4px;
+    height: 9px;
+    
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+}
+
+.select_container:hover .checkbox ~ .checkmark {
+    background-color: rgb(250, 250, 250);
+}
+
+.select_container .checkbox:checked ~ .checkmark {
+    background-color: black;
+}
+
+.select_container .checkbox:checked ~ .checkmark:after {
+    display: block;
+}
+
+.w1-icon {
+    width: 1rem;
+}
+
+.w1_2-icon {
+    width: 1.2rem;
+}
+
+.w1_5-icon {
+    width: 1.5rem;
+}
+
+.w2-icon {
+    width: 2rem;
+}
+
+.fill-white {
+    fill: white;
+}
+
+.fill-gray {
+    fill: #b0b0b0;
+}
+
+.fill-black {
+    fill: black;
+}
+
+.datatable_search_block {
+    float: left;
+    position: relative;
+
+    width: auto;
+}
+
+.datatable_search_icon {
+    position: absolute;
+    top: 11px;
+    left: 6px;
+}
+
+.datatable_search {
+    border: none;
+    background-color: #0000;
+    box-sizing: border-box;
+
+    height: 2.5rem;
+    padding: 0 1rem 0 2rem;
+
+    font-family: Fira Sans light;
+    line-height: 1.125;
+
+    width: 100%;
+}
+
+.datatable_search:hover,
+.datatable_search:focus {
+    outline: 2px solid #1662f8;
 }
 
 /* TODO Needed to use other size points for fonts (rem) */

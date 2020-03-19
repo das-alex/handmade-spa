@@ -67,3 +67,49 @@ export const home = (style) => `
         <rect id="_Transparent_Rectangle_" data-name="&lt;Transparent Rectangle&gt;" class="cls-1" width="32" height="32"/>
     </svg>
 `;
+
+export const logout = (style) => `
+    <svg class="${style}" id="icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+        <defs>
+            <style>.cls-1{fill:none;}</style>
+        </defs>
+        <title>logout</title>
+        <path d="M6,30H18a2.0023,2.0023,0,0,0,2-2V25H18v3H6V4H18V7h2V4a2.0023,2.0023,0,0,0-2-2H6A2.0023,2.0023,0,0,0,4,4V28A2.0023,2.0023,0,0,0,6,30Z"/>
+        <polygon points="20.586 20.586 24.172 17 10 17 10 15 24.172 15 20.586 11.414 22 10 28 16 22 22 20.586 20.586"/>
+        <rect id="_Transparent_Rectangle_" data-name="&lt;Transparent Rectangle&gt;" class="cls-1" width="32" height="32"/>
+    </svg>
+`;
+
+export const menu = (style) => `
+    <svg class="${style}" version="1.1" id="icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+    width="32px" height="32px" viewBox="0 0 32 32" style="enable-background:new 0 0 32 32;" xml:space="preserve">
+        <rect x="4" y="24" width="24" height="2"/>
+        <rect x="4" y="12" width="24" height="2"/>
+        <rect x="4" y="18" width="24" height="2"/>
+        <rect x="4" y="6" width="24" height="2"/>
+    </svg>
+`;
+
+export const page = (style) => `
+    <svg class="${style}" version="1.1" id="icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+    width="32px" height="32px" viewBox="0 0 32 32" style="enable-background:new 0 0 32 32;" xml:space="preserve">
+        <style type="text/css">.st0{fill:none;}</style>
+        <title>document</title>
+        <path d="M25.7,9.3l-7-7C18.5,2.1,18.3,2,18,2H8C6.9,2,6,2.9,6,4v24c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V10C26,9.7,25.9,9.5,25.7,9.3
+        z M18,4.4l5.6,5.6H18V4.4z M24,28H8V4h8v6c0,1.1,0.9,2,2,2h6V28z"/>
+        <rect x="10" y="22" width="12" height="2"/>
+        <rect x="10" y="16" width="12" height="2"/>
+        <rect class="st0" width="32" height="32"/>
+    </svg>
+`;
+
+export const search = (style) => `
+    <svg class="${style}" id="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+        <defs>
+            <style>.cls-1{fill:none;}</style>
+        </defs>
+        <title>search</title>
+        <path d="M30,28.59,22.45,21A11,11,0,1,0,21,22.45L28.59,30ZM5,14a9,9,0,1,1,9,9A9,9,0,0,1,5,14Z" transform="translate(0 0)"/>
+        <rect id="_Transparent_Rectangle_" data-name="&lt;Transparent Rectangle&gt;" class="cls-1" width="32" height="32"/>
+    </svg>
+`;

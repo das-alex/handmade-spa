@@ -1,9 +1,10 @@
 const button = (function() {
-    function button(name, icon, action, style) {
+    function button(name, icon, action, style, disabled = false) {
         this.name = name;
         this.icon = typeof icon === 'function' ? icon('btn_icon') : '';
         this.action = action;
         this.style = `btn ${style || ''}`;
+        this.disabled = disabled;
     }
 
     button.prototype.render = function() {
@@ -15,6 +16,7 @@ const button = (function() {
                 : false
         );
         element.onclick = this.action;
+        element.disabled = this.disabled;
 
         return element;
     }

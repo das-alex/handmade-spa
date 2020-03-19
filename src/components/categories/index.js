@@ -3,7 +3,7 @@ import { modal } from '../../dynamicComponents/modal';
 
 import { add } from '../../icons';
 
-import { appendTo, clearfix } from '../../__lib/';
+import { appendTo, clearfix, transliterate } from '../../__lib/';
 import Store from '../../store/';
 
 export default {
@@ -27,14 +27,12 @@ export default {
         Store.events.subscribe('categories', () => {
             if (Store.state.categories.length >= 1) {
                 makeTable();
-                // console.log(1);
             }
         });
 
         function makeTable() {
             const tableHeader = [
-                '', 'Название',
-                'Ссылка',
+                '', 'Название', 'Ссылка',
                 'Количество отделений', ''
             ];
 
@@ -53,23 +51,48 @@ export default {
                 'Добавить категорию': {
                     icon: add,
                     action: () => {
-                        // const modal = {
-                        //     header: 'Добавить новую категроию',
-                        //     body: '',
-                        //     fields: {},
-                        //     btns: {}
-                        // };
-                        const mdl = new modal('Добавить новую категроию', addCategory);
+                        const mdl = new modal({
+                            header: 'Добавить новую категроию',
+                            fields: [
+                                {
+                                    name: 'Название категории',
+                                    id: 'category_name',
+                                    fn: [
+                                        {
+                                            eventType: 'input',
+                                            fn: (ev) => {
+                                                document.getElementById('category_link').value = transliterate(ev.target.value);
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    name: 'Ссылка категории',
+                                    id: 'category_link'
+                                }
+                            ],
+                            buttons: [
+                                { preset: 'cancel' },
+                                {
+                                    name: 'Сохранить',
+                                    type: 'blueBtn',
+                                    fn: () => {
+                                        console.log('Saved!');
+                                    }
+                                }
+                            ]
+                        });
                         mdl.render();
                     },
                     style: 'float_r'
                 },
-                'Удалить всё': {
+                'Удалить': {
                     icon: '',
                     action: () => {
                         console.log('Deleted something');
                     },
-                    style: 'float_r'
+                    style: 'float_r',
+                    disabled: true
                 }
             }).render();
 

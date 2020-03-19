@@ -42,7 +42,9 @@ const router = async (ev) => {
     } else {
         app.innerHTML = await page.toLoad.render();
     }
-    await page.toLoad.after();
+    await page.toLoad.after({
+        location: `#${route}`
+    });
 }
 
 export default router;

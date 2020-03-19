@@ -1,6 +1,9 @@
 import { makeNodes } from '../__lib/';
 
-import { overflowMenuVertical } from '../icons';
+import {
+    overflowMenuVertical,
+    search
+} from '../icons';
 import button from './button';
 
 export const datatable = (function() {
@@ -39,11 +42,12 @@ export const datatable = (function() {
 
     function select() {
         const select = makeNodes(`
-                <label>
-                    <input class="datatable_checkbox" type="checkbox">
+                <label class="select_container">
+                    <input class="checkbox" type="checkbox">
+                    <span class="checkmark"></span>
                 </label>`);
         select
-            .querySelector('.datatable_checkbox')
+            .querySelector('.checkbox')
             .addEventListener('click', function(ev) {
                 console.log('CHECKED', this, ev);
             });
@@ -141,6 +145,19 @@ export const tableActions = (function() {
         this.funcs = funcs;
     }
 
+    function makeSearchInput() {
+        const input = makeNodes(`
+            <div class="datatable_search_block">
+                <span class="datatable_search_icon">
+                    ${search('w1-icon fill-gray')}
+                </span>
+                <input placeholder="Поиск" class="datatable_search" type="text" />
+            </div>
+        `);
+
+        return input;
+    }
+
     tableActions.prototype.render = function() {
         const tableAction = document.createElement('div');
         tableAction.classList.add('table_action');
@@ -155,10 +172,13 @@ export const tableActions = (function() {
                 key,
                 this.funcs[key].icon,
                 this.funcs[key].action,
-                this.funcs[key].style
+                this.funcs[key].style,
+                this.funcs[key].disabled
             ).render();
             tableAction.appendChild(btn);
         });
+
+        tableAction.prepend(makeSearchInput());
 
         return tableAction;
     }

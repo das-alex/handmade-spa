@@ -1,8 +1,15 @@
+import { makeNodes } from "../__lib";
+
 export const modal = (function() {
-    function modal(header, body, buttons) {
-        this.headerBlock = header;
-        this.bodyBlock = body;
-        this.buttons = buttons;
+    function modal(props) {
+        this.header = props.header || 'Not setted header';
+        this.body = props.hasOwnProperty('body')
+            ? props.body
+            : undefined;
+        this.buttons = props.buttons;
+        this.fields = props.hasOwnProperty('fields')
+            ? props.fields
+            : undefined;
     }
 
     function createBlock(data, style, fn = null) {
@@ -26,42 +33,84 @@ export const modal = (function() {
         return div;
     }
 
-    function createFieldBlock(name, id, type = 'text') {
-        const div = document.createElement('div');
-        const label = document.createElement('label');
-        const input = document.createElement('input');
+    function createFieldBlock(props) {
+        const inputRow = makeNodes(`
+            <div class="form_row mb-30">
+                <label for="${props.id}">${props.name}</label>
+                <input class="mt-8" id="${props.id}" name="${props.id}" type="${props.type || 'text'}">
+            </div>
+        `);
+
+        const inputNode = inputRow.getElementById(props.id);
+
+        if (props.hasOwnProperty('fn')) {
+            props.fn.forEach(item => {
+                inputNode.addEventListener(item.eventType, item.fn);
+            });
+        }
+
+        return inputRow;
     }
 
-    function createButton(name, fn, style) {
-        const btn = document.createElement('button');
-        btn.innerHTML = name;
+    function createButton(props) {
+        const button = makeNodes(`
+            <button class="${buttonsStyle[props.type].join(' ')}">
+                ${props.name}
+            </button>
+        `);
 
-        Array.isArray(style)
-            ? style.forEach(el => btn.classList.add(el))
-            : btn.classList.add(style);
+        button
+            .querySelector('button')
+            .addEventListener('click', props.fn);
 
-        btn.onclick = fn;
-
-        return btn;
+        return button;
     }
+
+    const headerStyle = ['modal_box__header', 'mb-30'];
+    const bodyStyle = ['modal_box__body', 'mb-50'];
+    const footerStyle = 'modal_box__footer';
+    const buttonsStyle = {
+        'grayBtn': ['btn', 'modal_box_btn', 'gray_btn', 'half-width', 'float_l'],
+        'blueBtn': ['btn', 'modal_box_btn', 'blue_btn', 'half-width', 'float_l']
+    };
 
     modal.prototype.render = function() {
         const app = document.querySelector('#app');
+        const presets = {
+            'cancel': {
+                name: 'Отменить',
+                type: 'grayBtn',
+                fn: () => {
+                    app.removeChild(modalBackground);
+                }
+            }
+        };
 
-        const header = createBlock(this.headerBlock, ['modal_box__header', 'mb-30']);
-        const body = createBlock(this.bodyBlock, 'modal_box__body');
+        let header = '';
+        let body = '';
+        let fields = '';
+        let buttons = '';
 
-        const cancelBtn = createButton('Отменить', () => {
-            app.removeChild(modalBackground);
-        }, ['btn', 'modal_box_btn', 'gray_btn', 'half-width']);
-        const saveBtn = createButton('Сохранить', () => {
-            app.removeChild(modalBackground);
-            console.log('Saved!');
-        }, ['btn', 'modal_box_btn', 'blue_btn', 'half-width']);
-        const footer = createBlock([cancelBtn, saveBtn], 'modal_box__footer');
+        header = createBlock(this.header, headerStyle);
+        if (this.body !== undefined) {
+            body = createBlock(this.body, bodyStyle);
+        }
+        if (this.fields !== undefined) {
+            fields = this.fields.map(field => {
+                return createFieldBlock(field);
+            });
+            fields = createBlock(fields, bodyStyle);
+        }
+        buttons = this.buttons.map(button => {
+            if (button.hasOwnProperty('preset')) {
+                return createButton(presets[button.preset]);
+            }
+            return createButton(button);
+        });
+        footer = createBlock(buttons, footerStyle);
         
         const modalWindow = createBlock(
-            [header, body, footer],
+            [header, fields, footer],
             'dash__modal_box'
         );
 
@@ -72,8 +121,6 @@ export const modal = (function() {
                 }
             }
         );
-        
-        // const footer = createBlock();
 
         app.appendChild(modalBackground);
     }
