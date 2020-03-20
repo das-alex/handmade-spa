@@ -19,7 +19,10 @@ export default {
             <div class="dash__header">
                 <div class="dash__header_left_side">
                     <p class="white_p h_logo">
-                        <span class="d-inline-b">${menu('header_menu_icon')}</span>
+                        <span class="d-inline-b">
+                            ${menu('header_menu_icon')}
+                            <span class="tooltip shadow">Скрыть/показать меню</span>
+                        </span>
                         <span class="light_p">ВАРБ</span> 
                         <span class="bold_p">информационная система</span>
                     </p>
@@ -59,6 +62,21 @@ export default {
         document.querySelector('.logout_menu_btn').addEventListener('click', () => {
             Store.dispatch('logout');
             routeTo('/login');
+        });
+
+        document.querySelector('.header_menu_icon').addEventListener('click', () => {
+            let menu = document.querySelector('.dash__left-side');
+            let content = document.querySelector('.dash__content');
+
+            if (menu.style.display == 'none') {
+                menu.style.display = 'block';
+                content.style.width = 'calc(100% - 290px)';
+                content.style.left = '290px';
+            } else {
+                menu.style.display = 'none';
+                content.style.width = '100%';
+                content.style.left = '0';
+            }
         });
 
         function activeLink() {

@@ -257,8 +257,36 @@ body {
 
 .header_menu_icon {
     height: 1.4rem;
+    cursor: pointer;
 
     fill: white;
+}
+
+.header_menu_icon:hover {
+    fill: #1662f8;
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    top: calc(50% - 1rem);
+    
+    font-family: Fira Sans light;
+    font-size: .9rem;
+    
+    padding: .2rem .5rem;
+    
+    background-color: #4c4c4c;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+
+.header_menu_icon:hover + .tooltip {
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .h_logo {
