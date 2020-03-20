@@ -36,17 +36,6 @@ export default {
                 'Количество отделений', ''
             ];
 
-            const addCategory = `
-                <div class="form_row mb-30">
-                    <label for="category_name">Название категории</label>
-                    <input class="mt-8" id="category_name" name="category_name" type="text">
-                </div>
-                <div class="form_row mb-50">
-                    <label for="category_link">Ссылка категории</label>
-                    <input class="mt-8" id="category_link" name="category_link" type="text">
-                </div>
-            `;
-
             const actions = new tableActions({
                 'Добавить категорию': {
                     icon: add,
@@ -77,7 +66,11 @@ export default {
                                     name: 'Сохранить',
                                     type: 'blueBtn',
                                     fn: () => {
-                                        console.log('Saved!');
+                                        Store.dispatch('addCategory', {
+                                            title: document.getElementById('category_name').value,
+                                            link: document.getElementById('category_link').value,
+                                            canHaveYMKD: true
+                                        });
                                     }
                                 }
                             ]

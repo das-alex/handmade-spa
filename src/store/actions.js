@@ -1,5 +1,5 @@
 import { http } from '../httpReq/';
-import { signin, getCategories } from '../httpReq/queryConstants';
+import { signin, categories } from '../httpReq/queryConstants';
 import { parseJwt } from '../__lib/';
 
 import { routeTo } from '../router/routerUtils';
@@ -28,7 +28,7 @@ export default {
     },
     getCategories(context) {
         context.commit('loading', true);
-        http.get(getCategories, true).then(data => {
+        http.get(categories, true).then(data => {
             if (data.status === 200) {
                 context.commit('getCategories', JSON.parse(data.response));
             }
@@ -36,6 +36,12 @@ export default {
         });
     },
     addCategory(context, payload) {
-        context.commit('addCategory', payload);
+        context.commit('loading', true);
+        http.post(categories, payload, true).then(data => {
+            if (data.status === 200) {
+                context.commit('addCategory', JSON.parse(data.response));
+            }
+            context.commit('loading', false);
+        });
     }
 };

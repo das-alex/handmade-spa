@@ -28,7 +28,7 @@ export default {
         // return state;
     },
     addCategory(state, payload) {
-        state.items.push(payload);
+        state.categories.push(payload);
 
         // return state;
     }
