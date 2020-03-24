@@ -43,5 +43,11 @@ export default {
             }
             context.commit('loading', false);
         });
+    },
+    datatableSelectedAdd(context, payload) {
+        context.commit('datatableSelectedAdd', payload);
+    },
+    datatableSelectedRemove(context, payload) {
+        context.commit('datatableSelectedRemove', payload);
     }
 };

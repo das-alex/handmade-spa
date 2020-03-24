@@ -31,7 +31,7 @@ const router = async (ev) => {
         if (to === null) {
             const parentRoute = page.parentRoute;
             const parentPage = routes[parentRoute].toLoad;
-            
+
             app.innerHTML = await parentPage.render();
             await parentPage.after();
 
@@ -45,6 +45,23 @@ const router = async (ev) => {
     await page.toLoad.after({
         location: `#${route}`
     });
+
+    await clean(app);
+}
+
+function clean(node) {
+    for (const n=0; n<node.childNodes.length; n++) {
+        const child = node.childNodes[n];
+        if (
+            child.nodeType === 8 || 
+            (child.nodeType === 3 && !/\S/.test(child.nodeValue))
+        ) {
+            node.removeChild(child);
+            n--;
+        } else if (child.nodeType === 1) {
+            clean(child);
+        }
+    }
 }
 
 export default router;

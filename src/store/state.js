@@ -2,5 +2,6 @@ export default {
     loading: false,
     user: {},
     isAuth: false,
-    categories: []
+    categories: [],
+    datatableSelects: []
 };

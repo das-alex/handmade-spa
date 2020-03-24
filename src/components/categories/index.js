@@ -25,8 +25,18 @@ export default {
     },
     after: async () => {
         Store.events.subscribe('categories', () => {
-            if (Store.state.categories.length >= 1) {
-                makeTable();
+            makeTable();
+        });
+
+        Store.events.subscribe('datatableSelects', () => {
+            const arr = Store.state.datatableSelects;
+            const deleteBtn = document.querySelector('.datatableDeleteBtn');
+            if (arr.length > 0) {
+                deleteBtn.disabled = false;
+                deleteBtn.innerText = `Удалить ${arr.length}`;
+            } else {
+                deleteBtn.disabled = true;
+                deleteBtn.innerText = 'Удалить';
             }
         });
 
@@ -66,11 +76,16 @@ export default {
                                     name: 'Сохранить',
                                     type: 'blueBtn',
                                     fn: () => {
-                                        Store.dispatch('addCategory', {
-                                            title: document.getElementById('category_name').value,
-                                            link: document.getElementById('category_link').value,
-                                            canHaveYMKD: true
-                                        });
+                                        const name = document.getElementById('category_name').value;
+                                        const link = document.getElementById('category_link').value;
+
+                                        if (name !== '' && link !== '') {
+                                            Store.dispatch('addCategory', {
+                                                title: name,
+                                                link: link,
+                                                canHaveYMKD: true
+                                            });
+                                        }
                                     }
                                 }
                             ]
@@ -82,9 +97,10 @@ export default {
                 'Удалить': {
                     icon: '',
                     action: () => {
-                        console.log('Deleted something');
+                        
                     },
                     style: 'float_r',
+                    selector: 'datatableDeleteBtn',
                     disabled: true
                 }
             }).render();
@@ -106,14 +122,21 @@ export default {
             };
 
             const categories = Store.state.categories.map(item => {
-                return [item.title, item.link, item.departments.length];
+                const departmentLength = item.departments ? item.departments.length : 0;
+                return [item.title, item.link, departmentLength];
             });
 
             const table = new datatable(
                 tableHeader,
                 categories,
                 {
-                    selectable: true,
+                    selectable: (ev) => {
+                        if (ev.target.checked) {
+                            Store.dispatch('datatableSelectedAdd', 1);
+                        } else {
+                            Store.dispatch('datatableSelectedRemove', 1);
+                        }
+                    },
                     overflowMenu: [
                         ofmDelete,
                         ofmChange

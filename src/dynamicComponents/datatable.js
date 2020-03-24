@@ -11,7 +11,9 @@ export const datatable = (function() {
         this.header = header;
         this.data = data;
 
-        this.isSelect = options.selectable;
+        this.isSelect = options.hasOwnProperty('selectable')
+            ? options.selectable
+            : false;
         this.overflow = options.overflowMenu
     }
 
@@ -40,7 +42,7 @@ export const datatable = (function() {
         `).join('');
     }
 
-    function select() {
+    function select(fn) {
         const select = makeNodes(`
                 <label class="select_container">
                     <input class="checkbox" type="checkbox">
@@ -48,9 +50,7 @@ export const datatable = (function() {
                 </label>`);
         select
             .querySelector('.checkbox')
-            .addEventListener('click', function(ev) {
-                console.log('CHECKED', this, ev);
-            });
+            .addEventListener('click', fn);
 
         return select;
     }
@@ -130,7 +130,7 @@ export const datatable = (function() {
         if (this.isSelect) {
             const selects = table.querySelectorAll('.data_table__select');
             selects.forEach(item => {
-                item.appendChild(select());
+                item.appendChild(select(this.isSelect));
             });
         }
         
@@ -173,6 +173,7 @@ export const tableActions = (function() {
                 this.funcs[key].icon,
                 this.funcs[key].action,
                 this.funcs[key].style,
+                this.funcs[key].selector,
                 this.funcs[key].disabled
             ).render();
             tableAction.appendChild(btn);

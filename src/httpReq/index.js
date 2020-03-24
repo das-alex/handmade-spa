@@ -43,5 +43,14 @@ export const http = (function() {
         return handleResponse(this.xhr);
     }
 
+    http.prototype.delete = function(endPoint, payload) {
+        this.xhr.open('DELETE', server + endPoint);
+
+        setHeaders.call(this, true);
+
+        this.xhr.send(JSON.stringify(payload));
+        return handleResponse(this.xhr);
+    }
+
     return new http();
 })();

@@ -1,9 +1,9 @@
 const button = (function() {
-    function button(name, icon, action, style, disabled = false) {
+    function button(name, icon, action, style, selector, disabled = false) {
         this.name = name;
         this.icon = typeof icon === 'function' ? icon('btn_icon') : '';
         this.action = action;
-        this.style = `btn ${style || ''}`;
+        this.style = `btn ${style || ''} ${selector || ''}`.trim();
         this.disabled = disabled;
     }
 
