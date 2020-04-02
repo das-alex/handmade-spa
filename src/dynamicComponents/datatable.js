@@ -9,6 +9,8 @@ import button from './button';
 export const datatable = (function() {
     function datatable(header, data, options) {
         this.header = header;
+
+        // First element in 'this.data' is always 'id'
         this.data = data;
 
         this.isSelect = options.hasOwnProperty('selectable')
@@ -26,10 +28,11 @@ export const datatable = (function() {
     }
 
     function getBody(body) {
+        console.log('GET BODY', body);
         const tbody = body.map(item => `
-            <tr class="data_table__tr">
+            <tr class="data_table__tr" dataId="${item[0]}">
                 <td class="data_table__td data_table__select"></td>
-                ${getCells(item)}
+                ${getCells(item.slice(1))}
                 <td class="data_table__overflow"></td>
             </tr>`).join('');
 
@@ -145,7 +148,7 @@ export const tableActions = (function() {
         this.funcs = funcs;
     }
 
-    function makeSearchInput() {
+    function makeSearchInput(fn) {
         const input = makeNodes(`
             <div class="datatable_search_block">
                 <span class="datatable_search_icon">
@@ -154,6 +157,10 @@ export const tableActions = (function() {
                 <input placeholder="Поиск" class="datatable_search" type="text" />
             </div>
         `);
+
+        input
+            .querySelector('.datatable_search')
+            .addEventListener('input', fn);
 
         return input;
     }
@@ -168,18 +175,20 @@ export const tableActions = (function() {
             return false;
         }
         keys.forEach(key => {
-            const btn = new button(
-                key,
-                this.funcs[key].icon,
-                this.funcs[key].action,
-                this.funcs[key].style,
-                this.funcs[key].selector,
-                this.funcs[key].disabled
-            ).render();
-            tableAction.appendChild(btn);
+            if (key === 'search') {
+                tableAction.prepend(makeSearchInput(this.funcs[key]));
+            } else {
+                const btn = new button(
+                    key,
+                    this.funcs[key].icon,
+                    this.funcs[key].action,
+                    this.funcs[key].style,
+                    this.funcs[key].selector,
+                    this.funcs[key].disabled
+                ).render();
+                tableAction.appendChild(btn);
+            }
         });
-
-        tableAction.prepend(makeSearchInput());
 
         return tableAction;
     }

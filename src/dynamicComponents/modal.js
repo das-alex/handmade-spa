@@ -21,7 +21,9 @@ export const modal = (function() {
         if (typeof data === 'string') {
             div.innerHTML = data;
         } else if (Array.isArray(data)) {
-            data.forEach(el => div.appendChild(el));
+            data.forEach(el => {
+                typeof el !== 'string' && div.appendChild(el)
+            });
         } else {
             div.appendChild(data);
         }
@@ -61,7 +63,12 @@ export const modal = (function() {
 
         button
             .querySelector('button')
-            .addEventListener('click', props.fn);
+            .addEventListener('click', () => {
+                if (props.hasOwnProperty('fn')) {
+                    props.fn();
+                }
+                this.close();
+            });
 
         return button;
     }
@@ -74,15 +81,19 @@ export const modal = (function() {
         'blueBtn': ['btn', 'modal_box_btn', 'blue_btn', 'half-width', 'float_l']
     };
 
+    modal.prototype.close = function() {
+        const app = document.querySelector('#app');
+        const modal = document.querySelector('.dashboard__modal');
+        app.removeChild(modal);
+    }
+
     modal.prototype.render = function() {
+        const self = this;
         const app = document.querySelector('#app');
         const presets = {
             'cancel': {
                 name: 'Отменить',
-                type: 'grayBtn',
-                fn: () => {
-                    app.removeChild(modalBackground);
-                }
+                type: 'grayBtn'
             }
         };
 
@@ -103,21 +114,21 @@ export const modal = (function() {
         }
         buttons = this.buttons.map(button => {
             if (button.hasOwnProperty('preset')) {
-                return createButton(presets[button.preset]);
+                return createButton.call(this, presets[button.preset]);
             }
-            return createButton(button);
+            return createButton.call(this, button);
         });
         footer = createBlock(buttons, footerStyle);
         
         const modalWindow = createBlock(
-            [header, fields, footer],
+            [header, body, fields, footer],
             'dash__modal_box'
         );
 
         const modalBackground = createBlock(
             modalWindow, 'dashboard__modal', (ev) => {
                 if (ev.target.className === 'dashboard__modal') {
-                    app.removeChild(modalBackground);
+                    self.close();
                 }
             }
         );

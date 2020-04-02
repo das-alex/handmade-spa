@@ -3,7 +3,13 @@ import { modal } from '../../dynamicComponents/modal';
 
 import { add } from '../../icons';
 
-import { appendTo, clearfix, transliterate } from '../../__lib/';
+import {
+    appendTo,
+    clearfix,
+    transliterate,
+    getParentsTree,
+    updateIt
+} from '../../__lib/';
 import Store from '../../store/';
 
 export default {
@@ -25,7 +31,17 @@ export default {
     },
     after: async () => {
         Store.events.subscribe('categories', () => {
-            makeTable();
+            const categories = Store.state.categories.map(item => {
+                return [item.id, item.title, item.link, item.countDepartnemt];
+            });
+            makeTable(categories);
+        });
+
+        Store.events.subscribe('datatableSearch', () => {
+            const seachies = Store.state.datatableSearch.map(item => {
+                return [item.id, item.title, item.link, item.countDepartnemt];
+            });
+            updateIt('table__wrapper', table(seachies));
         });
 
         Store.events.subscribe('datatableSelects', () => {
@@ -40,12 +56,59 @@ export default {
             }
         });
 
-        function makeTable() {
-            const tableHeader = [
-                '', 'Название', 'Ссылка',
-                'Количество отделений', ''
-            ];
+        const ofmDelete = {
+            name: 'Удалить',
+            fn: function(ev) {
+                const parentRow = getParentsTree(ev.target, 7)[6];
+                const text = parentRow.children[1].innerText;
+                const dataId = parentRow.getAttribute('dataId');
+                const mdl = new modal({
+                    header: 'Удалить запись',
+                    body: `Удалить запись "${text}"?`,
+                    buttons: [
+                        {preset: 'cancel'},
+                        {
+                            name: 'Удалить',
+                            type: 'blueBtn',
+                            fn: () => {
+                                Store.dispatch('removeCategories', [parseInt(dataId, 10)]);
+                            }
+                        }
+                    ]
+                });
+                mdl.render();
+            }
+        };
 
+        const ofmChange = {
+            name: 'Изменить',
+            fn: function(ev) {
+                console.log('changed!');
+            }
+        };
+
+        const table = (data) => new datatable(
+            ['', 'Название', 'Ссылка',
+                'Количество отделений', ''],
+            data,
+            {
+                selectable: (ev) => {
+                    const dataId = getParentsTree(ev.target, 4)[3].getAttribute('dataId');
+
+                    if (ev.target.checked) {
+                        Store.dispatch('datatableSelectedAdd', parseInt(dataId, 10));
+                    } else {
+                        Store.dispatch('datatableSelectedRemove', parseInt(dataId, 10));
+                    }
+                },
+                overflowMenu: [
+                    ofmChange,
+                    ofmDelete
+                ]
+            }
+        ).render();
+
+        function makeTable(data) {
             const actions = new tableActions({
                 'Добавить категорию': {
                     icon: add,
@@ -97,54 +160,88 @@ export default {
                 'Удалить': {
                     icon: '',
                     action: () => {
-                        
+                        const arr = Store.state.datatableSelects;
+                        const mdl = new modal({
+                            header: 'Удалить набор записей',
+                            body: `Удалить набор из ${arr.length} записей?`,
+                            buttons: [
+                                {preset: 'cancel'},
+                                {
+                                    name: 'Удалить',
+                                    type: 'blueBtn',
+                                    fn: () => {
+                                        Store.dispatch('removeCategories', arr);
+                                    }
+                                }
+                            ]
+                        });
+                        mdl.render();
                     },
                     style: 'float_r',
                     selector: 'datatableDeleteBtn',
                     disabled: true
+                },
+                search: (ev) => {
+                    Store.dispatch('datatableSearch', {
+                        searchIn: 'categories',
+                        searchBy: ev.target.value
+                    });
                 }
             }).render();
 
-            const ofmDelete = {
-                name: 'Удалить',
-                fn: function(ev) {
-                    const mdl = new modal('Удалить категорию?', 'Данное действие навсегда удалит эту категорию');
-                    mdl.render();
-                    console.log('Deleted from overflow menu', ev);
-                }
-            };
+            // const ofmDelete = {
+            //     name: 'Удалить',
+            //     fn: function(ev) {
+            //         const parentRow = getParentsTree(ev.target, 7)[6];
+            //         const text = parentRow.children[1].innerText;
+            //         const dataId = parentRow.getAttribute('dataId');
+            //         const mdl = new modal({
+            //             header: 'Удалить запись',
+            //             body: `Удалить запись "${text}"?`,
+            //             buttons: [
+            //                 {preset: 'cancel'},
+            //                 {
+            //                     name: 'Удалить',
+            //                     type: 'blueBtn',
+            //                     fn: () => {
+            //                         Store.dispatch('removeCategories', [parseInt(dataId, 10)]);
+            //                     }
+            //                 }
+            //             ]
+            //         });
+            //         mdl.render();
+            //     }
+            // };
 
-            const ofmChange = {
-                name: 'Изменить',
-                fn: function(ev) {
-                    console.log('changed!');
-                }
-            };
+            // const ofmChange = {
+            //     name: 'Изменить',
+            //     fn: function(ev) {
+            //         console.log('changed!');
+            //     }
+            // };
 
-            const categories = Store.state.categories.map(item => {
-                const departmentLength = item.departments ? item.departments.length : 0;
-                return [item.title, item.link, departmentLength];
-            });
+            // const table = new datatable(
+            //     ['', 'Название', 'Ссылка',
+            //         'Количество отделений', ''],
+            //     data,
+            //     {
+            //         selectable: (ev) => {
+            //             const dataId = getParentsTree(ev.target, 4)[3].getAttribute('dataId');
 
-            const table = new datatable(
-                tableHeader,
-                categories,
-                {
-                    selectable: (ev) => {
-                        if (ev.target.checked) {
-                            Store.dispatch('datatableSelectedAdd', 1);
-                        } else {
-                            Store.dispatch('datatableSelectedRemove', 1);
-                        }
-                    },
-                    overflowMenu: [
-                        ofmDelete,
-                        ofmChange
-                    ]
-                }
-            ).render();
+            //             if (ev.target.checked) {
+            //                 Store.dispatch('datatableSelectedAdd', parseInt(dataId, 10));
+            //             } else {
+            //                 Store.dispatch('datatableSelectedRemove', parseInt(dataId, 10));
+            //             }
+            //         },
+            //         overflowMenu: [
+            //             ofmChange,
+            //             ofmDelete
+            //         ]
+            //     }
+            // ).render();
 
-            appendTo('dash__content_body', [actions, clearfix(), table]);
+            appendTo('dash__content_body', [actions, clearfix(), table(data)]);
         }
 
     }

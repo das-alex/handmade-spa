@@ -32,8 +32,19 @@ export default {
 
         // return state;
     },
-    deleteCategories(state, payload) {
-        // state.categories = 
+    removeCategories(state, payload) {
+        state.categories = state.categories.filter(item => 
+            !payload.includes(item.id)
+        );
+        state.datatableSelects = [];
+    },
+    /*-----------------------*/
+    /*  DATATABLE SEARCH    */
+    /*---------------------*/
+    datatableSearch(state, payload) {
+        state.datatableSearch = state[payload.searchIn].filter(item => {
+            return item.title.toLowerCase().indexOf(payload.searchBy.toLowerCase()) !== -1;
+        });
     },
     /*-----------------------*/
     /*  DATATABLE SELECTS   */

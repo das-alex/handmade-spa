@@ -1,5 +1,5 @@
 import { http } from '../httpReq/';
-import { signin, categories } from '../httpReq/queryConstants';
+import { signin, categories, deleteCategories } from '../httpReq/queryConstants';
 import { parseJwt } from '../__lib/';
 
 import { routeTo } from '../router/routerUtils';
@@ -43,6 +43,19 @@ export default {
             }
             context.commit('loading', false);
         });
+    },
+    removeCategories(context, payload) {
+        context.commit('loading', true);
+        http.delete(deleteCategories, payload, true).then(data => {
+            if (data.status === 205) {
+                context.commit('removeCategories', payload);
+            }
+            // 200, 400
+            context.commit('loading', false);
+        });
+    },
+    datatableSearch(context, payload) {
+        context.commit('datatableSearch', payload);
     },
     datatableSelectedAdd(context, payload) {
         context.commit('datatableSelectedAdd', payload);

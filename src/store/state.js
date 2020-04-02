@@ -3,5 +3,6 @@ export default {
     user: {},
     isAuth: false,
     categories: [],
-    datatableSelects: []
+    datatableSelects: [],
+    datatableSearch: []
 };

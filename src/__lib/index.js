@@ -9,10 +9,20 @@ export const appendTo = (appendTo, components) => {
     if (node.children.length === 0) {
         components.forEach(component => node.appendChild(component));
     } else {
-        components.forEach((item, i) => {
-            node.replaceChild(item, node.children[i]);
-        });
+        updateIn(appendTo, components);
     }
+}
+
+export const updateIn = (updateIn, components) => {
+    const node = document.querySelector(`.${updateIn}`);
+    components.forEach((item, i) => {
+        node.replaceChild(item, node.children[i]);
+    });
+}
+
+export const updateIt = (updateIt, component) => {
+    const node = document.querySelector(`.${updateIt}`);
+    node.parentNode.replaceChild(component, node);
 }
 
 export const clearfix = () => {
@@ -33,4 +43,15 @@ export const parseJwt = (token) => {
     }).join(''));
 
     return JSON.parse(jsonPayload);
+};
+
+export const getParentsTree = (currentNode, depth) => {
+    let current = currentNode;
+    let tree = [];
+    while (depth) {
+        tree.push(current);
+        current = current.parentNode;
+        depth--;
+    }
+    return tree;
 };
