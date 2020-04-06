@@ -303,6 +303,14 @@ body {
 
 .dash__main {
     box-sizing: border-box;
+
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    padding-top: 50px;
+
+    z-index: -1;
 }
 
 .dash__left-side {
@@ -358,6 +366,7 @@ body {
 .dash__content {
     float: right;
     position: fixed;
+    overflow: auto;
 
     left: 290px;
     width: calc(100% - 290px);
@@ -385,6 +394,8 @@ body {
     padding-top: 50px;
     padding-left: 70px;
     padding-right: 70px;
+    
+    margin-bottom: 100px;
 }
 
 .table__wrapper {

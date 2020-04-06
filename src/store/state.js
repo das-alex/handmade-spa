@@ -3,6 +3,7 @@ export default {
     user: {},
     isAuth: false,
     categories: [],
+    departments: [],
     datatableSelects: [],
     datatableSearch: []
 };

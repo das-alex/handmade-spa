@@ -38,6 +38,12 @@ export default {
         );
         state.datatableSelects = [];
     },
+    /*----------------------*/
+    /*    ПОДРАЗДЕЛЕНИЯ     */
+    /*----------------------*/
+    getDepartments(state, payload) {
+        state.departments = payload;
+    },
     /*-----------------------*/
     /*  DATATABLE SEARCH    */
     /*---------------------*/

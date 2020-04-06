@@ -13,10 +13,14 @@ export const datatable = (function() {
         // First element in 'this.data' is always 'id'
         this.data = data;
 
-        this.isSelect = options.hasOwnProperty('selectable')
-            ? options.selectable
-            : false;
-        this.overflow = options.overflowMenu
+        if (options) {
+            this.isSelect = options.hasOwnProperty('selectable')
+                ? options.selectable
+                : false;
+            this.overflow = options.hasOwnProperty('overflowMenu')
+                ? options.overflowMenu
+                : false;
+        }
     }
 
     function getHeader(header) {
@@ -60,6 +64,7 @@ export const datatable = (function() {
 
     function overflowMenu(overflow) {
         function menuItemBtn(item) {
+            console.log('OVERFLOW MENU', item);
             const menuItem = makeNodes(`
                 <li class="overflow_menu__item">
                     <button class="overflow_menu_item__btn">
@@ -70,7 +75,7 @@ export const datatable = (function() {
 
             menuItem
                 .querySelector('.overflow_menu_item__btn')
-                .addEventListener('click', item.fn);
+                .addEventListener('click', item);
             
             return menuItem;
         }
@@ -88,8 +93,10 @@ export const datatable = (function() {
         `);
 
         const list = menu.querySelector('.overflow_menu__list');
-        overflow.forEach(item => {
-            list.appendChild(menuItemBtn(item));
+
+        const keys = Object.keys(overflow);
+        keys.forEach(key => {
+            list.appendChild(menuItemBtn(overflow[key]));
         });
 
         return menu;
@@ -125,10 +132,12 @@ export const datatable = (function() {
             </div>
         `);
 
-        const overflows = table.querySelectorAll('.data_table__overflow');
-        overflows.forEach(item => {
-            item.appendChild(overflowMenu(this.overflow));
-        });
+        if (this.overflow) {
+            const overflows = table.querySelectorAll('.data_table__overflow');
+            overflows.forEach(item => {
+                item.appendChild(overflowMenu(this.overflow));
+            });
+        }
 
         if (this.isSelect) {
             const selects = table.querySelectorAll('.data_table__select');

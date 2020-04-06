@@ -1,5 +1,10 @@
 import { http } from '../httpReq/';
-import { signin, categories, deleteCategories } from '../httpReq/queryConstants';
+import {
+    signin,
+    categories,
+    deleteCategories,
+    departments
+} from '../httpReq/queryConstants';
 import { parseJwt } from '../__lib/';
 
 import { routeTo } from '../router/routerUtils';
@@ -26,6 +31,9 @@ export default {
         localStorage.clear();
         context.commit('logout');
     },
+    /*----------------------*/
+    /*      КАТЕГОРИИ       */
+    /*----------------------*/
     getCategories(context) {
         context.commit('loading', true);
         http.get(categories, true).then(data => {
@@ -51,6 +59,18 @@ export default {
                 context.commit('removeCategories', payload);
             }
             // 200, 400
+            context.commit('loading', false);
+        });
+    },
+    /*----------------------*/
+    /*    ПОДРАЗДЕЛЕНИЯ     */
+    /*----------------------*/
+    getDepartments(context) {
+        context.commit('loading', true);
+        http.get(departments, true).then(data => {
+            if (data.status === 200) {
+                context.commit('getDepartments', JSON.parse(data.response));
+            }
             context.commit('loading', false);
         });
     },

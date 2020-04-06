@@ -55,7 +55,6 @@ export default {
                 </div>
                 <home-content class="dash__content"></home-content>
             </div>
-            <div class="clearfix"></div>
         </div>`
     },
     after: async () => {
