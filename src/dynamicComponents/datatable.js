@@ -2,7 +2,8 @@ import { makeNodes } from '../__lib/';
 
 import {
     overflowMenuVertical,
-    search
+    search,
+    playFilled
 } from '../icons';
 import button from './button';
 
@@ -32,7 +33,6 @@ export const datatable = (function() {
     }
 
     function getBody(body) {
-        console.log('GET BODY', body);
         const tbody = body.map(item => `
             <tr class="data_table__tr" dataId="${item[0]}">
                 <td class="data_table__td data_table__select"></td>
@@ -64,7 +64,6 @@ export const datatable = (function() {
 
     function overflowMenu(overflow) {
         function menuItemBtn(item) {
-            console.log('OVERFLOW MENU', item);
             const menuItem = makeNodes(`
                 <li class="overflow_menu__item">
                     <button class="overflow_menu_item__btn">
@@ -203,4 +202,30 @@ export const tableActions = (function() {
     }
 
     return tableActions;
+})();
+
+export const pagination = (function() {
+    function pagination(prev = '', next = '') {
+        this.prev = prev;
+        this.next = next;
+    }
+
+    function markup() {
+        const pagination = makeNodes(`
+            <div class="datatable__pagination">
+                <div class="pagination__nav">
+                    <span class="datatable_pagination_nav__left">${playFilled('mirror_x w1-icon')}</span>
+                    <span class="datatable_pagination_nav__right">${playFilled('w1-icon')}</span>
+                </div>
+            </div>
+        `);
+
+        return pagination;
+    }
+
+    pagination.prototype.render = function() {
+        return markup();
+    }
+
+    return pagination;
 })();

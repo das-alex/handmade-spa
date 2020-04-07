@@ -10,27 +10,19 @@ export default {
     authorize(state, payload) {
         state.isAuth = payload.isAuth;
         state.user = payload.jwt;
-
-        // return state;
     },
     logout(state) {
         state.isAuth = false;
         state.user = {};
-
-        // return state;
     },
     /*----------------------*/
     /*      КАТЕГОРИИ       */
     /*----------------------*/
     getCategories(state, payload) {
         state.categories = payload;
-
-        // return state;
     },
     addCategory(state, payload) {
         state.categories = [...state.categories, payload];
-
-        // return state;
     },
     removeCategories(state, payload) {
         state.categories = state.categories.filter(item => 
@@ -43,6 +35,9 @@ export default {
     /*----------------------*/
     getDepartments(state, payload) {
         state.departments = payload;
+    },
+    addDepartment(state, payload) {
+        state.departments = [...state.departments, payload];
     },
     /*-----------------------*/
     /*  DATATABLE SEARCH    */
@@ -60,5 +55,8 @@ export default {
     },
     datatableSelectedRemove(state, payload) {
         state.datatableSelects = state.datatableSelects.filter(item => item === payload ? false : true);
+    },
+    clearSelects(state) {
+        state.datatableSelects = [];
     }
 };

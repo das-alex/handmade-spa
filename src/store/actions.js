@@ -74,6 +74,21 @@ export default {
             context.commit('loading', false);
         });
     },
+    addDepartment(context, payload) {
+        context.commit('loading', true);
+        http.post(departments, payload, true).then(data => {
+            if (data.status === 200) {
+                context.commit('addDepartment', JSON.parse(data.response));
+            }
+            context.commit('loading', false);
+        });
+    },
+    removeDepartments(context, payload) {
+
+    },
+    /*----------------------*/
+    /*   DATATABLE SEARCH   */
+    /*----------------------*/
     datatableSearch(context, payload) {
         context.commit('datatableSearch', payload);
     },
@@ -82,5 +97,8 @@ export default {
     },
     datatableSelectedRemove(context, payload) {
         context.commit('datatableSelectedRemove', payload);
+    },
+    clearSelects(context) {
+        context.commit('clearSelects');
     }
 };

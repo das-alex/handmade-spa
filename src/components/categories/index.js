@@ -12,7 +12,7 @@ import { addNewCategoryModal } from './addNewCategory.modal';
 import { deleteCategoryModal } from './deleteCategory.modal';
 
 export default {
-    fetchData: async () => {
+    beforeRender: async () => {
         Store.dispatch('getCategories');
     },
     render: async () => {
@@ -28,7 +28,7 @@ export default {
         </div>
         `;
     },
-    after: async () => {
+    afterRender: async () => {
         Store.events.subscribe('categories', () => {
             const categories = Store.state.categories.map(item => {
                 return [item.id, item.title, item.link, item.countDepartnemt];
@@ -86,7 +86,7 @@ export default {
 
         const table = (data) => new datatable(
             ['', 'Название', 'Ссылка',
-                'Количество отделений', ''],
+                'Количество подразделений', ''],
             data,
             {
                 selectable: (ev) => {

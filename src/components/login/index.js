@@ -42,7 +42,7 @@ export default {
             </div>
         `;
     },
-    after: async () => {
+    afterRender: async () => {
         document.querySelector('form').addEventListener('submit', (event) => {
             event.preventDefault();
             Store.dispatch('authorize', {

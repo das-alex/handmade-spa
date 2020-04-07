@@ -21,8 +21,8 @@ const router = async (ev) => {
         routeTo('/login');
     }
 
-    if (page.toLoad.hasOwnProperty('fetchData')) {
-        await page.toLoad.fetchData();
+    if (page.toLoad.hasOwnProperty('beforeRender')) {
+        await page.toLoad.beforeRender();
     }
 
     if (page.hasOwnProperty('parentTemplate')) {
@@ -33,7 +33,7 @@ const router = async (ev) => {
             const parentPage = routes[parentRoute].toLoad;
 
             app.innerHTML = await parentPage.render();
-            await parentPage.after();
+            await parentPage.afterRender();
 
             to = document.querySelector(`${page.parentTemplate}-content`);
         }
@@ -42,7 +42,7 @@ const router = async (ev) => {
     } else {
         app.innerHTML = await page.toLoad.render();
     }
-    await page.toLoad.after({
+    await page.toLoad.afterRender({
         location: `#${route}`
     });
 }

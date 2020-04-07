@@ -57,7 +57,7 @@ export default {
             </div>
         </div>`
     },
-    after: async () => {
+    afterRender: async () => {
         document.querySelector('.logout_menu_btn').addEventListener('click', () => {
             Store.dispatch('logout');
             routeTo('/login');

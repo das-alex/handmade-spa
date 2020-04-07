@@ -16,6 +16,7 @@ export const appendTo = (appendTo, components) => {
 export const updateIn = (updateIn, components) => {
     const node = document.querySelector(`.${updateIn}`);
     components.forEach((item, i) => {
+        console.log(node.children[i]);
         node.replaceChild(item, node.children[i]);
     });
 }

@@ -1,10 +1,11 @@
 import Store from "../../store";
-import { appendTo, clearfix } from "../../__lib";
-import { datatable, tableActions } from "../../dynamicComponents/datatable";
-import { add } from "../../icons";
+import { appendTo, clearfix, getParentsTree, updateIt } from "../../__lib";
+import { datatable, tableActions, pagination } from "../../dynamicComponents/datatable";
+import { addNewDepartmentModal } from "./addNewDepartment.modal";
+import { deleteDepartmentModal } from "./deleteDepartment.modal";
 
 export default {
-    fetchData: async () => {
+    beforeRender: async () => {
         Store.dispatch('getDepartments');
     },
     render: async () => {
@@ -20,20 +21,41 @@ export default {
         </div>
         `;
     },
-    after: async () => {
-        const page = 1;
-        const perPage = 10;
+    afterRender: async () => {
+        let begin = 0;
+        let end = 10;
 
         const categoryTitles = {};
         Store.state.departments
             .filter(item => item.category.hasOwnProperty('id'))
             .forEach(item => categoryTitles[item.category.id] = item.category.title);
 
+        const datatableNav = new pagination().render();
+
         Store.events.subscribe('departments', () => {
             const departments = Store.state.departments.map(item => {
                 return [item.id, item.title, item.category.title || categoryTitles[item.category], item.link];
+            }).slice(begin, end);
+            appendTo('dash__content_body', [actions, clearfix(), table(departments), datatableNav]);
+        });
+
+        Store.events.subscribe('datatableSelects', () => {
+            const arr = Store.state.datatableSelects;
+            const deleteBtn = document.querySelector('.datatableDeleteBtn');
+            if (arr.length > 0) {
+                deleteBtn.disabled = false;
+                deleteBtn.innerText = `Удалить ${arr.length}`;
+            } else {
+                deleteBtn.disabled = true;
+                deleteBtn.innerText = 'Удалить';
+            }
+        });
+
+        Store.events.subscribe('datatableSearch', () => {
+            const seachies = Store.state.datatableSearch.map(item => {
+                return [item.id, item.title, item.category.title || categoryTitles[item.category], item.link];
             });
-            appendTo('dash__content_body', [actions, clearfix(), table(departments)]);
+            updateIt('table__wrapper', table(seachies));
         });
 
         const table = (data) => new datatable(
@@ -84,6 +106,8 @@ export default {
         };
 
         const actions = new tableActions({
+            'Добавить подразделение': addNewDepartmentModal,
+            'Удалить': deleteDepartmentModal,
             search: (ev) => {
                 Store.dispatch('datatableSearch', {
                     searchIn: 'departments',

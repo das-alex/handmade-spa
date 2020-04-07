@@ -761,4 +761,12 @@ body {
     outline: 2px solid #1662f8;
 }
 
+.mirror_x {
+    transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    -moz-transform: scaleX(-1);
+    -ms-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+}
+
 /* TODO Needed to use other size points for fonts (rem) */
