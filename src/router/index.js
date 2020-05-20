@@ -17,9 +17,9 @@ const router = async (ev) => {
 
     let page = routes[route] ? routes[route] : routes['/404'];
 
-    if (isProtected(page) && isAuthorized(Store.state.isAuth) === false) {
-        routeTo('/login');
-    }
+    // if (isProtected(page) && isAuthorized(Store.state.isAuth) === false) {
+    //     routeTo('/login');
+    // }
 
     if (page.toLoad.hasOwnProperty('beforeRender')) {
         await page.toLoad.beforeRender();

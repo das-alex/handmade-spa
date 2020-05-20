@@ -42,6 +42,7 @@ export default {
         Store.events.subscribe('datatableSelects', () => {
             const arr = Store.state.datatableSelects;
             const deleteBtn = document.querySelector('.datatableDeleteBtn');
+            
             if (arr.length > 0) {
                 deleteBtn.disabled = false;
                 deleteBtn.innerText = `Удалить ${arr.length}`;
