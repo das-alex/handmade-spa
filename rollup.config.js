@@ -12,7 +12,6 @@ export default {
     },
     plugins: [
         resolve(),
-        // commonjs - to get all dependences from node_modules
         commonjs(),
         babel({
             exclude: 'node_modules/**'
